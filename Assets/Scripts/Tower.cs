@@ -18,7 +18,7 @@ public class Tower : Token {
 		return tower;
 	}
 
-	const float SHOT_SPEED = 5.0f;
+	const float SHOT_SPEED = 15.0f;
 
 	private float range;
 
@@ -28,7 +28,7 @@ public class Tower : Token {
 
 	// Use this for initialization
 	void Init () {
-		range = Field.GetChopSize () * 3.0f;
+		range = Field.GetChopSize () * 10.0f;
 		firerate = 2.0f;
 		firerateTimer = 0;
 

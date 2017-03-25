@@ -28,6 +28,7 @@ public class Enemy : Token {
 	private Vec2D nextPoint;
 
 	private int hp;
+	private int money;
 
 	public void Init(List<Vec2D> path){
 		_path = path;
@@ -40,6 +41,7 @@ public class Enemy : Token {
 		previousPoint.x -= Field.GetChopSize ();
 		FixedUpdate ();
 		hp = 2;
+		money = 1;
 	}
 
 	//敵を生成する
@@ -84,8 +86,8 @@ public class Enemy : Token {
 		bool isPathFinish = pathIndex >= _path.Count;
 
 		if (isPathFinish) {
-			tSpeed = 100.0f;
-			return;
+			pathIndex = 2;
+
 		}
 
 		//移動先を移動元にコピー
@@ -114,6 +116,10 @@ public class Enemy : Token {
 			Shot shot = other.gameObject.GetComponent<Shot> ();
 			shot.Vanish ();
 			Damage (1);
+
+			if (Exists == false) {
+				Global.AddMoney (money);
+			}
 		}
 	}
 
@@ -151,4 +157,7 @@ public class Enemy : Token {
 		}
 	}
 	//ボール
+	public static int EnemyCount(){
+		return Enemy.parent.Count ();
+	}
 }

@@ -4,13 +4,32 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public enum eState{
+		Wait,
+		Gameover,
+		Main
+	}
+
+	public enum eSelectMode{
+		None,
+		Buy
+	}
+
+	eSelectMode selectMode = eSelectMode.None;
+
 	int appearTimer = 0;
 	List <Vec2D> _path;
 	private Cursor cursor;
 	private Layer2D collisionLayer;
+	private Gui gui;
+	private eState state = eState.Wait;
 
 	// Use this for initialization
 	void Start () {
+
+		//所持金を初期化
+		Global.Init();
+
 		//敵の管理オブジェクトを生成
 		Enemy.parent = new TokenMgr<Enemy>("Enemy", 128);
 		//ショットを管理するオブジェクトを生成
@@ -34,17 +53,16 @@ public class GameManager : MonoBehaviour {
 
 		collisionLayer = field.CollisionLayer;
 
+		gui = new Gui ();
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+
+	void UpdateMain(){
 		appearTimer++;
-		if (appearTimer % 10 == 0) {
+		if (appearTimer % 50 == 0) {
 			Enemy.Add (_path);
 		}
-
-		cursor.Proc (collisionLayer);
-
 		if (cursor.Placeable == false) {
 			return;
 		}
@@ -56,9 +74,72 @@ public class GameManager : MonoBehaviour {
 
 
 
-		if (cursor.SelectObject == null) {
-			//なにもないのでタワーを設置できる
-			Tower.Add (cursor.X, cursor.Y);
+
+		switch (selectMode) {
+		case eSelectMode.Buy:
+			if (cursor.SelectObject == null) {
+				//なにもないのでタワーを設置できる
+				int cost = Cost.TowerProduction();
+				Global.UseMoney (cost);
+				Tower.Add (cursor.X, cursor.Y);
+
+				//次のタワーの生産コストを取得
+				int cost2 = Cost.TowerProduction();
+				if (Global.Money < cost2) {
+					ChangeSelectMode (eSelectMode.None);
+				}
+			}
+			break;
+		}
+
+
+	}
+
+	// Update is called once per frame
+	void Update () {
+		
+		gui.Update (selectMode);
+
+		cursor.Proc (collisionLayer);
+
+		switch (state) {
+		case eState.Wait:
+			state = eState.Main;
+			break;
+
+		case eState.Main:
+			UpdateMain ();
+			if (Enemy.EnemyCount () > 100) {
+				state = eState.Gameover;
+				MyCanvas.SetActive ("TextGameover", true);
+				break;
+			}
+			break;
+		case eState.Gameover:
+			if (Input.GetMouseButton (0)) {
+				Application.LoadLevel ("Main");
+			}
+			break;
 		}
 	}
+	
+	public void OnClickBuy(){
+		MyCanvas.SetActive ("ButtonBuy", false);
+		ChangeSelectMode (eSelectMode.Buy);
+	}
+
+	void ChangeSelectMode(eSelectMode mode){
+		switch (mode) {
+		case eSelectMode.None:
+			MyCanvas.SetActive ("ButtonBuy", true);
+			break;
+
+		case eSelectMode.Buy:
+			MyCanvas.SetActive ("ButtonBuy", false);
+			break;
+		}
+		selectMode = mode;
+	}
+
+
 }

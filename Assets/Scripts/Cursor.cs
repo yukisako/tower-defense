@@ -18,7 +18,6 @@ public class Cursor : Token {
 	void SetSelectObject(){
 		int mask = 1 << LayerMask.NameToLayer ("Tower");
 		Collider2D collider = Physics2D.OverlapPoint (GetPosition (), mask);
-		Debug.Log (collider);
 		selectObject = null;
 
 		if (collider != null) {
