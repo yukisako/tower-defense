@@ -14,8 +14,7 @@ public class Enemy : Token {
 	//アニメーションのタイマ
 	int animationTimer = 0;
 
-	private float speed = 0;
-	private float tSpeed = 0;	//補完値
+
 
 	//経路座標のリスト
 	private List<Vec2D> _path;
@@ -29,6 +28,8 @@ public class Enemy : Token {
 
 	private int hp;
 	private int money;
+	private float speed = EnemyParam.Speed ();
+	private float tSpeed = 0;	//補完値
 
 	public void Init(List<Vec2D> path){
 		_path = path;
@@ -38,10 +39,10 @@ public class Enemy : Token {
 
 		MoveNext ();
 		previousPoint.Copy (nextPoint);
-		previousPoint.x -= Field.GetChopSize ();
+		previousPoint.x -= Field.GetChipSize ();
 		FixedUpdate ();
-		hp = 2;
-		money = 1;
+		hp = EnemyParam.Hp();
+		money = EnemyParam.Money();
 	}
 
 	//敵を生成する
@@ -115,7 +116,7 @@ public class Enemy : Token {
 		if (name == "Shot") {
 			Shot shot = other.gameObject.GetComponent<Shot> ();
 			shot.Vanish ();
-			Damage (1);
+			Damage (shot.Power);
 
 			if (Exists == false) {
 				Global.AddMoney (money);

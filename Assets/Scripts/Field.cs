@@ -20,12 +20,12 @@ public class Field : Token {
 	}
 
 	//チップサイズの基準となるスプライトの取得
-	static Sprite GetChopSprite(){
+	static Sprite GetChipSprite(){
 		return Util.GetSprite ("Levels/tileset", "tileset_0");
 	}
 
-	public static float GetChopSize(){
-		var sprite = GetChopSprite ();
+	public static float GetChipSize(){
+		var sprite = GetChipSprite ();
 		return sprite.bounds.size.x;
 	}
 
@@ -34,7 +34,7 @@ public class Field : Token {
 		//カメラビューの左下の座標を取得
 		Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0,0));
 
-		var sprite = GetChopSprite ();
+		var sprite = GetChipSprite ();
 		var spriteWidth = sprite.bounds.size.x;
 		float worldX = min.x + (spriteWidth * i) + spriteWidth / 2;
 
@@ -46,7 +46,7 @@ public class Field : Token {
 		//カメラビューの左下の座標を取得
 		Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1,1));
 
-		var sprite = GetChopSprite ();
+		var sprite = GetChipSprite ();
 		var spriteHeight = sprite.bounds.size.y;
 
 		//チップ座標はY軸が上向きだがUnityのワールド座標系はY軸が下向きのため-1をかけている
@@ -91,14 +91,14 @@ public class Field : Token {
 
 	public static int ToChipX(float x){
 		Vector2 min = Camera.main.ViewportToWorldPoint (new Vector2 (0, 0));
-		var sprite = GetChopSprite ();
+		var sprite = GetChipSprite ();
 		var spriteWidth = sprite.bounds.size.x;
 		return (int)((x - min.x) / spriteWidth);
 	}
 			
 	public static int ToChipY(float y){
 		Vector2 max = Camera.main.ViewportToWorldPoint (new Vector2 (1, 1));
-		var sprite = GetChopSprite ();
+		var sprite = GetChipSprite ();
 		var spriteHeight = sprite.bounds.size.y;
 		return (int)((y - max.y) / -spriteHeight);
 	}

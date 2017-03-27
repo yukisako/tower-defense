@@ -12,17 +12,24 @@ public class GameManager : MonoBehaviour {
 
 	public enum eSelectMode{
 		None,
-		Buy
+		Buy,
+		Upgrade
 	}
 
 	eSelectMode selectMode = eSelectMode.None;
+	GameObject selectObject = null;
+	Tower selectTower = null;
 
 	int appearTimer = 0;
 	List <Vec2D> _path;
 	private Cursor cursor;
 	private Layer2D collisionLayer;
 	private Gui gui;
+	EnemyGenerator enemyGenerator;
 	private eState state = eState.Wait;
+	private float nextWaveTimer;
+	private WaveStart waveStart;
+	private CursorRange cursorRange;
 
 	// Use this for initialization
 	void Start () {
@@ -55,16 +62,29 @@ public class GameManager : MonoBehaviour {
 
 		gui = new Gui ();
 
+		enemyGenerator = new EnemyGenerator (_path);
+
+		waveStart = MyCanvas.Find<WaveStart> ("TextWaveStart");
+
+		cursorRange = GameObject.Find ("CursorRange").GetComponent<CursorRange> ();
+
+		ChangeSelectMode (eSelectMode.None);
 	}
 
 
 	void UpdateMain(){
-		appearTimer++;
-		if (appearTimer % 50 == 0) {
-			Enemy.Add (_path);
-		}
+		enemyGenerator.Update ();
 		if (cursor.Placeable == false) {
 			return;
+		}
+
+		int mask = 1 << LayerMask.NameToLayer ("Tower");
+		Collider2D col = Physics2D.OverlapPoint (cursor.GetPosition (), mask);
+
+		selectObject = null;
+
+		if (col != null) {
+			selectObject = col.gameObject;
 		}
 
 		//マウスクリック判定
@@ -73,7 +93,10 @@ public class GameManager : MonoBehaviour {
 		}
 
 
-
+		if (selectObject) {
+			selectTower = selectObject.GetComponent<Tower> ();
+			ChangeSelectMode (eSelectMode.Upgrade);
+		}
 
 		switch (selectMode) {
 		case eSelectMode.Buy:
@@ -98,12 +121,15 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		gui.Update (selectMode);
+		gui.Update (selectMode,selectTower);
 
 		cursor.Proc (collisionLayer);
 
 		switch (state) {
 		case eState.Wait:
+
+			enemyGenerator.Start (Global.Wave);
+			waveStart.Begin (Global.Wave);
 			state = eState.Main;
 			break;
 
@@ -114,6 +140,9 @@ public class GameManager : MonoBehaviour {
 				MyCanvas.SetActive ("TextGameover", true);
 				break;
 			}
+
+			nextWave ();
+
 			break;
 		case eState.Gameover:
 			if (Input.GetMouseButton (0)) {
@@ -124,7 +153,7 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	public void OnClickBuy(){
-		MyCanvas.SetActive ("ButtonBuy", false);
+		//MyCanvas.SetActive ("ButtonBuy", false);
 		ChangeSelectMode (eSelectMode.Buy);
 	}
 
@@ -132,14 +161,66 @@ public class GameManager : MonoBehaviour {
 		switch (mode) {
 		case eSelectMode.None:
 			MyCanvas.SetActive ("ButtonBuy", true);
+			MyCanvas.SetActive ("TextTowerInfo", false);
+			cursorRange.SetVisible (false, 0);
+			SetActiveUpgrade (false);
 			break;
 
+
 		case eSelectMode.Buy:
-			MyCanvas.SetActive ("ButtonBuy", false);
+			//MyCanvas.SetActive ("ButtonBuy", false);
+			MyCanvas.SetActive ("TextTowerInfo", false);
+			cursorRange.SetVisible (false, 0);
+			SetActiveUpgrade (false);
 			break;
+
+		case eSelectMode.Upgrade:
+			MyCanvas.SetActive ("ButtonBuy", true);
+			MyCanvas.SetActive ("TextTowerInfo", true);
+			cursorRange.SetVisible (true, selectTower.LevelRange);
+			cursorRange.SetPosition (cursor);
+			SetActiveUpgrade (true);
+			break;
+
 		}
 		selectMode = mode;
 	}
 
+	private void nextWave(){
+		nextWaveTimer += Time.deltaTime;
+		if (nextWaveTimer > 30) {
+			nextWaveTimer = 0;
+			Global.NextWave ();
+			state = eState.Wait;
+		}
+	}
+
+	private void SetActiveUpgrade(bool set){
+		MyCanvas.SetActive("ButtonRange", set);
+		MyCanvas.SetActive("ButtonFirerate", set);
+		MyCanvas.SetActive("ButtonPower", set);
+	}
+
+	private void ExecUpgrade(Tower.eUpgrade type){
+		int cost = selectTower.GetCost (type);
+		Global.UseMoney (cost);
+		selectTower.Upgrade (type);
+		cursorRange.SetVisible (true, selectTower.LevelRange);
+	}
+
+	public void onClickRange(){
+		ExecUpgrade (Tower.eUpgrade.Range);
+	}
+	public void onClickFirerate(){
+		ExecUpgrade (Tower.eUpgrade.Firerate);
+	}
+
+	public void onClickPower(){
+		ExecUpgrade (Tower.eUpgrade.Power);
+	}
+
+
 
 }
+
+

@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Global : MonoBehaviour {
 
+	private static int wave = 1;
+	public static int Wave{
+		get {return wave;}
+	}
+
+	public static void NextWave(){
+		wave++;
+	}
+
+
+
 	const int MONEY_INIT = 30;
 	private static int money;
 	public static int Money{
@@ -11,6 +22,7 @@ public class Global : MonoBehaviour {
 	}
 
 	public static void Init(){
+		wave = 1;
 		money = MONEY_INIT;
 	}
 
