@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour {
 		gui = new Gui ();
 
 		for (int i = 0; i < Global.Line; i++) {
-			enemyGenerators [i] = new EnemyGenerator (paths [i]);
+			enemyGenerators [i] = new EnemyGenerator (paths [i],i);
 		}
 
 		waveStart = MyCanvas.Find<WaveStart> ("TextWaveStart");

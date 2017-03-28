@@ -10,6 +10,9 @@ public class Global : MonoBehaviour {
 		get {return wave;}
 	}
 
+	public static Enemy.EnemyType currentType;
+
+
 	public static void NextWave(){
 		wave++;
 	}

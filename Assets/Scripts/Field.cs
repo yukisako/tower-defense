@@ -69,7 +69,6 @@ public class Field : Token {
 
 
 		for (int i = 0; i < Global.Line; i++) {
-			Debug.Log (i);
 			layerPaths[i] = tmx.GetLayer($"path{i}");
 			positions[i] = layerPaths[i].Search(CHIP_PATH_START);
 			paths[i] = new List<Vec2D>();

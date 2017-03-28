@@ -60,7 +60,8 @@ public class EnemyParam{
 
 
 	public static float GenerationInterval(){
-		return 1.5f;
+		int speed = speedParam (Global.currentType);
+		return 3.0f/speed;
 	}
 
 
