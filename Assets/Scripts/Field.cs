@@ -8,10 +8,13 @@ public class Field : Token {
 	public const int CHIP_PATH_START = 26;  //開始地点
 
 	//パス (座標リスト)
-	List<Vec2D> _path;
-	public List<Vec2D> Path{
-		get { return _path; }
+	List<Vec2D>[] paths = new List<Vec2D>[4];
+
+	public List<Vec2D>[] Paths{
+		get { return paths; }
 	}
+
+
 
 	private Layer2D collisionLayer;
 
@@ -55,38 +58,28 @@ public class Field : Token {
 		return worldY;
 	}
 
-
 	public void Load () {
 
 		//マップの読み込み
 		TMXLoader tmx = new TMXLoader ();
 		tmx.Load ("Levels/map");
 
-		//経路レイヤーの取得
-		Layer2D lPath = tmx.GetLayer("path");
+		Vec2D[] positions = new Vec2D[4];
+		Layer2D[] layerPaths = new Layer2D[4];
 
-		//開始地点の探索
-		Vec2D pos = lPath.Search(CHIP_PATH_START);
 
-		//座標リストを作成
-		_path = new List<Vec2D>();
-
-		_path.Add (new Vec2D (pos.X, pos.Y));
-
-		lPath.Set (pos.X, pos.Y, CHIP_NONE);
-
-		CreatePath (lPath, pos.X, pos.Y, _path);
-
-//		foreach (Vec2D p in _path) {
-//			p.Dump ();
-//		}
-
+		for (int i = 0; i < Global.Line; i++) {
+			Debug.Log (i);
+			layerPaths[i] = tmx.GetLayer($"path{i}");
+			positions[i] = layerPaths[i].Search(CHIP_PATH_START);
+			paths[i] = new List<Vec2D>();
+			paths[i].Add (new Vec2D (positions[i].X, positions[i].Y));
+			layerPaths[i].Set (positions[i].X, positions[i].Y, CHIP_NONE);
+			CreatePath (layerPaths[i], positions[i].X, positions[i].Y, paths[i]);
+		}
+			
 		collisionLayer = tmx.GetLayer ("collision");
 
-		//敵の取得
-//		Enemy enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
-//
-//		enemy.Init (_path);
 	}
 
 	public static int ToChipX(float x){

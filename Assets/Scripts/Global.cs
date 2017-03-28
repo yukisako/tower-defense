@@ -5,6 +5,7 @@ using UnityEngine;
 public class Global : MonoBehaviour {
 
 	private static int wave = 1;
+
 	public static int Wave{
 		get {return wave;}
 	}
@@ -13,6 +14,10 @@ public class Global : MonoBehaviour {
 		wave++;
 	}
 
+	private static int line = 4;
+	public static int Line{
+		get {return line;}
+	}
 
 
 	const int MONEY_INIT = 30;
