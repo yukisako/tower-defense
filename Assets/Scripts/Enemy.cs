@@ -4,17 +4,31 @@ using UnityEngine;
 
 public class Enemy : Token {
 
+	public enum EnemyType{
+		Tank,
+		Drone,
+		Balloon,
+		AirPlane,
+		Rocket,
+		Fighter,
+		UFO
+	}
+
 	//マネージャオブジェクト
 	public static TokenMgr<Enemy> parent = null;
 
-	//アニメーション用のスプライト
-	public Sprite sprite0;
-	public Sprite sprite1;
+	public Sprite TankSprite1;
+	public Sprite TankSprite2;
+	public Sprite DroneSprite1;
+	public Sprite DroneSprite2;
+	public Sprite BalloonSprite;
+	public Sprite AirPlaneSprite;
+	public Sprite RocketSprite;
+	public Sprite FighterSprite;
+	public Sprite UFOSprite;
 
 	//アニメーションのタイマ
 	int animationTimer = 0;
-
-
 
 	//経路座標のリスト
 	private List<Vec2D> _path;
@@ -28,13 +42,15 @@ public class Enemy : Token {
 
 	private int hp;
 	private int money;
-	private float speed = EnemyParam.Speed ();
+	private float speed;
 	private float tSpeed = 0;	//補完値
+	EnemyType enemyType;
 
-	public void Init(List<Vec2D> path){
+	public void Init(List<Vec2D> path, EnemyType type){
+		enemyType = type;
 		_path = path;
 		pathIndex = 0;
-		speed = 10.0f;
+		speed = EnemyParam.Speed (enemyType);
 		tSpeed = 0;
 
 		MoveNext ();
@@ -43,30 +59,21 @@ public class Enemy : Token {
 		FixedUpdate ();
 		hp = EnemyParam.Hp();
 		money = EnemyParam.Money();
+
 	}
 
 	//敵を生成する
-	public static Enemy Add(List<Vec2D> path){
+	public static Enemy Add(List<Vec2D> path, EnemyType type){
 		Enemy e = parent.Add (0, 0);
 		if (e == null) {
 			return null;
 		}
-		e.Init (path);
+		e.Init (path, type);
 		return e;
 	}
 
-	void Start () {
-		
-	}
-
 	void FixedUpdate () {
-		animationTimer++;
-		if (animationTimer % 32 < 16) {
-			SetSprite (sprite0);
-		} else {
-			SetSprite (sprite1);
-		}
-
+		animation ();
 		tSpeed += speed;
 
 		if (tSpeed >= 100.0f) {
@@ -101,7 +108,11 @@ public class Enemy : Token {
 		pathIndex++;
 
 		//角度を更新
-		UpdateAngle ();
+		if (isRotate (enemyType)) {
+			UpdateAngle ();
+		} else {
+			Angle = Mathf.Atan2 (0, 1) * Mathf.Rad2Deg;
+		}
 	}
 
 	void UpdateAngle(){
@@ -157,6 +168,92 @@ public class Enemy : Token {
 			base.Vanish();
 		}
 	}
+
+	//タイプが渡されたらスプライトを返す
+	private Sprite typeToSprite(EnemyType type, bool first){
+		switch (type) {
+		case EnemyType.Tank:
+			if (first) {
+				return TankSprite1;
+			} else {
+				return TankSprite2;
+			}
+		case EnemyType.Drone:
+			if (first) {
+				return DroneSprite1;
+			} else {
+				return DroneSprite2;
+			}
+
+		case EnemyType.AirPlane:
+			return AirPlaneSprite;
+		case EnemyType.Balloon:
+			return BalloonSprite;
+		case EnemyType.Rocket:
+			return RocketSprite;
+		case EnemyType.Fighter:
+			return FighterSprite;
+		case EnemyType.UFO:
+			return UFOSprite;
+		}
+		return TankSprite1;
+	}
+
+	//タイプが渡されたら回転するかどうかを返す
+	private bool isRotate(EnemyType type){
+		if((type == EnemyType.Drone) || (type == EnemyType.UFO) || (type == EnemyType.Balloon)){
+			return false;
+		} else {
+			return true;
+		}
+	}
+			
+
+	//タイプが渡されたら複数枚有るかどうかを返す
+	private bool isSomeSprite(EnemyType type){
+		if((type == EnemyType.Tank)|| (type == EnemyType.Drone)){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void animation(){
+		animationTimer++;
+		if (isSomeSprite(enemyType)) {
+			if (animationTimer % 32 < 16) {
+				SetSprite (typeToSprite (enemyType, true));
+			} else {
+				SetSprite (typeToSprite (enemyType, false));
+			}
+		} else {
+			SetSprite(typeToSprite(enemyType, true));
+		}
+	}
+
+	public static EnemyType WaveToType(){
+		switch(Global.Wave % 7){
+		case 1:
+			return EnemyType.Balloon;
+		case 2:
+			return EnemyType.Drone;
+		case 3:
+			return EnemyType.AirPlane;
+		case 4:
+			return EnemyType.Tank;
+		case 5:
+			return EnemyType.Rocket;
+		case 6:
+			return EnemyType.UFO;
+		case 0:
+			return EnemyType.Fighter;
+		}
+		return EnemyType.Tank;
+	}
+
+
+
+
 	//ボール
 	public static int EnemyCount(){
 		return Enemy.parent.Count ();

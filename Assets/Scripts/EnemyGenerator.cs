@@ -37,7 +37,7 @@ public class EnemyGenerator{
 		intervalTimer += Time.deltaTime;
 		if (intervalTimer >= interval) {
 			intervalTimer -= interval;
-			Enemy.Add (_pathList);
+			Enemy.Add (_pathList, Enemy.WaveToType());
 			number--;
 			return;
 		}
