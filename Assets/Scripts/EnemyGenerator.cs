@@ -9,17 +9,20 @@ public class EnemyGenerator{
 	private float interval;
 	private float intervalTimer;
 	private int number;
+	private int enemyLine;
 
 	public int Number{
 		get {return number;}
 	}
 
-	public EnemyGenerator(List<Vec2D> pathlist){
+	public EnemyGenerator(List<Vec2D> pathlist, int line){
 		_pathList = pathlist;
+		enemyLine = line;
 	}
 
 	// Use this for initialization
 	public void Start (int numberWave) {
+		Global.currentType = Enemy.WaveToType ();
 		interval = EnemyParam.GenerationInterval();
 		intervalTimer = 0;
 
@@ -37,7 +40,7 @@ public class EnemyGenerator{
 		intervalTimer += Time.deltaTime;
 		if (intervalTimer >= interval) {
 			intervalTimer -= interval;
-			Enemy.Add (_pathList, Enemy.WaveToType());
+			Enemy.Add (_pathList, Enemy.WaveToType(),enemyLine);
 			number--;
 			return;
 		}

@@ -15,17 +15,18 @@ public class GameManager : MonoBehaviour {
 		Buy,
 		Upgrade
 	}
-
+		
 	eSelectMode selectMode = eSelectMode.None;
 	GameObject selectObject = null;
 	Tower selectTower = null;
 
 	int appearTimer = 0;
-	List <Vec2D> _path;
+	List <Vec2D>[] paths = new List<Vec2D>[4];
+	EnemyGenerator[] enemyGenerators = new EnemyGenerator[4];
+
 	private Cursor cursor;
 	private Layer2D collisionLayer;
 	private Gui gui;
-	EnemyGenerator enemyGenerator;
 	private eState state = eState.Wait;
 	private float nextWaveTimer;
 	private WaveStart waveStart;
@@ -54,7 +55,9 @@ public class GameManager : MonoBehaviour {
 
 		field.Load ();
 
-		_path = field.Path;
+		for (int i = 0; i < Global.Line; i++) {
+			paths [i] = field.Paths [i];
+		}
 
 		cursor = GameObject.Find ("Cursor").GetComponent<Cursor> ();
 
@@ -62,7 +65,9 @@ public class GameManager : MonoBehaviour {
 
 		gui = new Gui ();
 
-		enemyGenerator = new EnemyGenerator (_path);
+		for (int i = 0; i < Global.Line; i++) {
+			enemyGenerators [i] = new EnemyGenerator (paths [i],i);
+		}
 
 		waveStart = MyCanvas.Find<WaveStart> ("TextWaveStart");
 
@@ -73,7 +78,9 @@ public class GameManager : MonoBehaviour {
 
 
 	void UpdateMain(){
-		enemyGenerator.Update ();
+		for (int i = 0; i < Global.Line; i++) {
+			enemyGenerators [i].Update ();
+		}
 		if (cursor.Placeable == false) {
 			return;
 		}
@@ -127,8 +134,9 @@ public class GameManager : MonoBehaviour {
 
 		switch (state) {
 		case eState.Wait:
-
-			enemyGenerator.Start (Global.Wave);
+			for (int i = 0; i < Global.Line; i++) {
+				enemyGenerators [i].Start (Global.Wave);
+			}
 			waveStart.Begin (Global.Wave);
 			state = eState.Main;
 			break;

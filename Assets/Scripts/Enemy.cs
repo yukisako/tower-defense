@@ -43,32 +43,38 @@ public class Enemy : Token {
 	private int hp;
 	private int money;
 	private float speed;
+	private int enemyLine;
 	private float tSpeed = 0;	//補完値
 	EnemyType enemyType;
 
-	public void Init(List<Vec2D> path, EnemyType type){
+	public void Init(List<Vec2D> path, EnemyType type, int line){
 		enemyType = type;
 		_path = path;
 		pathIndex = 0;
+		enemyLine = line;
 		speed = EnemyParam.Speed (enemyType);
 		tSpeed = 0;
 
 		MoveNext ();
 		previousPoint.Copy (nextPoint);
-		previousPoint.x -= Field.GetChipSize ();
+		if (line < 2) {
+			previousPoint.x -= Field.GetChipSize ();
+		} else {
+			previousPoint.y += Field.GetChipSize ();
+		}
 		FixedUpdate ();
 		hp = EnemyParam.Hp();
 		money = EnemyParam.Money();
-
 	}
 
 	//敵を生成する
-	public static Enemy Add(List<Vec2D> path, EnemyType type){
+	public static Enemy Add(List<Vec2D> path, EnemyType type, int line){
+		Global.currentType = type;
 		Enemy e = parent.Add (0, 0);
 		if (e == null) {
 			return null;
 		}
-		e.Init (path, type);
+		e.Init (path, type, line);
 		return e;
 	}
 
@@ -94,8 +100,20 @@ public class Enemy : Token {
 		bool isPathFinish = pathIndex >= _path.Count;
 
 		if (isPathFinish) {
-			pathIndex = 2;
-
+			switch (enemyLine) {
+			case 0:
+				pathIndex = 2;
+				break;
+			case 1:
+				pathIndex = 3;
+				break;
+			case 2:
+				pathIndex = 6;
+				break;
+			case 3:
+				pathIndex = 7;
+				break;
+			}
 		}
 
 		//移動先を移動元にコピー
