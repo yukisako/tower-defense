@@ -9,6 +9,7 @@ public class Gui{
 	private TextObj enemyCountText;
 	private TextObj waveText;
 	private TextObj towerInfoText;
+	private TextObj timerText;
 	private ButtonObj rangeButton;
 	private ButtonObj firerateButton;
 	private ButtonObj powerButton;
@@ -20,10 +21,12 @@ public class Gui{
 		enemyCountText = MyCanvas.Find<TextObj> ("TextEnemyCount");
 		costText.Label = "";
 		waveText = MyCanvas.Find<TextObj> ("TextWave");
+		timerText = MyCanvas.Find<TextObj> ("TextTimer");
 		towerInfoText = MyCanvas.Find<TextObj> ("TextTowerInfo");
 		rangeButton = MyCanvas.Find<ButtonObj> ("ButtonRange");
 		firerateButton = MyCanvas.Find<ButtonObj> ("ButtonFirerate");
 		powerButton = MyCanvas.Find<ButtonObj> ("ButtonPower");
+
 	}
 
 
@@ -32,6 +35,7 @@ public class Gui{
 
 		moneyText.SetLabelFormat ("¥ {0}", Global.Money);
 
+		timerText.SetLabelFormat ("Next: {0}", (int)(Global.NextWaveTimer));
 
 		costText.Label = "";
 
