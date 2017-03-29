@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : Token {
 
@@ -13,10 +14,9 @@ public class Enemy : Token {
 		Fighter,
 		UFO
 	}
-
+		
 	//マネージャオブジェクト
 	public static TokenMgr<Enemy> parent = null;
-
 	public Sprite TankSprite1;
 	public Sprite TankSprite2;
 	public Sprite DroneSprite1;
@@ -41,6 +41,7 @@ public class Enemy : Token {
 	private Vec2D nextPoint;
 
 	private int hp;
+	private int maxHp;
 	private int money;
 	private float speed;
 	private int enemyLine;
@@ -54,7 +55,6 @@ public class Enemy : Token {
 		enemyLine = line;
 		speed = EnemyParam.Speed (enemyType);
 		tSpeed = 0;
-
 		MoveNext ();
 		previousPoint.Copy (nextPoint);
 		if (line < 2) {
@@ -63,8 +63,10 @@ public class Enemy : Token {
 			previousPoint.y += Field.GetChipSize ();
 		}
 		FixedUpdate ();
+		maxHp = EnemyParam.Hp ();
 		hp = EnemyParam.Hp();
 		money = EnemyParam.Money();
+		Alpha = 1.0f;
 	}
 
 	//敵を生成する
@@ -87,7 +89,7 @@ public class Enemy : Token {
 			MoveNext ();
 		}
 
-
+		//Alpha = hp/maxHp;
 		//線形補間で移動
 		X = Mathf.Lerp (previousPoint.x, nextPoint.x, tSpeed / 100.0f);
 		Y = Mathf.Lerp (previousPoint.y, nextPoint.y, tSpeed / 100.0f);
@@ -146,7 +148,6 @@ public class Enemy : Token {
 			Shot shot = other.gameObject.GetComponent<Shot> ();
 			shot.Vanish ();
 			Damage (shot.Power);
-
 			if (Exists == false) {
 				Global.AddMoney (money);
 			}
@@ -156,6 +157,7 @@ public class Enemy : Token {
 
 	void Damage(int val){
 		hp -= val;
+		Alpha = (float)hp / (float)maxHp;
 		if (hp <= 0) {
 			Vanish ();
 		}
@@ -268,8 +270,6 @@ public class Enemy : Token {
 		}
 		return EnemyType.Tank;
 	}
-
-
 
 
 	//ボール
