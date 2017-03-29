@@ -195,10 +195,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void nextWave(){
-		nextWaveTimer += Time.deltaTime;
-		if (nextWaveTimer > 30) {
-			nextWaveTimer = 0;
-			Global.NextWave ();
+		if (Global.NextWave ()) {
 			state = eState.Wait;
 		}
 	}

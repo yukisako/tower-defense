@@ -10,11 +10,23 @@ public class Global : MonoBehaviour {
 		get {return wave;}
 	}
 
+	private static float nextWaveTimer = 30.0f;
+	public static float NextWaveTimer{
+		get {return nextWaveTimer;}
+	}
+
+
 	public static Enemy.EnemyType currentType;
 
 
-	public static void NextWave(){
-		wave++;
+	public static bool NextWave(){
+		nextWaveTimer -= Time.deltaTime;
+		if (nextWaveTimer < 0) {
+			nextWaveTimer = 30;
+			wave++;
+			return true;
+		}
+		return false;
 	}
 
 	private static int line = 4;
