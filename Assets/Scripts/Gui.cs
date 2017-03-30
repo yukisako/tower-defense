@@ -31,16 +31,16 @@ public class Gui{
 
 
 	public void Update (GameManager.eSelectMode selectMode,Tower tower) {
-		waveText.SetLabelFormat ("Wave:{0}", Global.Wave);
+		waveText.SetLabelFormat ("{0}", Global.Wave);
 
-		moneyText.SetLabelFormat ("¥ {0}", Global.Money);
+		moneyText.SetLabelFormat ("$ {0}", Global.Money);
 
-		timerText.SetLabelFormat ("Next: {0}", (int)(Global.NextWaveTimer));
+		timerText.SetLabelFormat ("{0}", (int)(Global.NextWaveTimer));
 
 		costText.Label = "";
 
 		if (selectMode == GameManager.eSelectMode.Upgrade) {
-			towerInfoText.SetLabelFormat ("<<Tower Info>>\n  Rnage: Lv{0}\n  Firerate: Lv{1}\n  Power: Lv{2}"
+			towerInfoText.SetLabelFormat ("Tower Info\nRange: Lv{0}\nFirerate: Lv{1}\nPower: Lv{2}"
 				, tower.LevelRange, tower.LevelFirerate, tower.LevelPower);
 		}
 
@@ -49,23 +49,23 @@ public class Gui{
 		if (tower) {
 
 			rangeButton.Enabled = (money >= tower.CostRange);
-			rangeButton.FormatLabel ("Range ¥{0}", tower.CostRange);
+			rangeButton.FormatLabel ("Range ${0}", tower.CostRange);
 
 			firerateButton.Enabled = (money >= tower.CostFirerate);
-			firerateButton.FormatLabel ("Firerate ¥{0}", tower.CostFirerate);
+			firerateButton.FormatLabel ("Firerate ${0}", tower.CostFirerate);
 
 			powerButton.Enabled = (money >= tower.CostPower);
-			powerButton.FormatLabel ("Power ¥{0}", tower.CostPower);
+			powerButton.FormatLabel ("Power ${0}", tower.CostPower);
 		}
 
 		int cost = Cost.TowerProduction ();
 
 		if (selectMode == GameManager.eSelectMode.Buy) {
-			costText.SetLabelFormat ("(cost ¥{0})", cost);
+			costText.SetLabelFormat ("(cost ${0})", cost);
 		}
 		buyButton.Enabled = (Global.Money >= cost);
 
-		buyButton.FormatLabel ("Buy (¥{0})", cost);
+		buyButton.FormatLabel ("Buy (${0})", cost);
 
 		countEnemy ();
 
