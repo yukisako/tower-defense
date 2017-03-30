@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5d1edbb823eeb4e399bfcbdd5295e9a8
+timeCreated: 1490806049
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dited
+  fontNames:
+  - Dited
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

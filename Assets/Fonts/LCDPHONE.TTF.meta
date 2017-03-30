@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 88b1b89e2b428428e9ecf3076bc152c9
+timeCreated: 1490805570
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: lcd phone
+  fontNames:
+  - lcd phone
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
