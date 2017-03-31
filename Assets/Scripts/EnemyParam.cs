@@ -54,7 +54,7 @@ public class EnemyParam{
 
 
 	public static int GenerationNumber(){
-		return 5 + Global.Wave;
+		return 5;
 	}
 
 
