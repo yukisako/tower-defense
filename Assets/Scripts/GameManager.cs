@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		Time.timeScale = 0.0f;	
 		//所持金を初期化
 		Global.Init();
 
@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour {
 
 
 	void UpdateMain(){
+		
 		for (int i = 0; i < Global.Line; i++) {
 			enemyGenerators [i].Update ();
 		}
@@ -99,6 +100,7 @@ public class GameManager : MonoBehaviour {
 			return;
 		}
 
+		Time.timeScale = 1.0f;
 
 		if (selectObject) {
 			selectTower = selectObject.GetComponent<Tower> ();
