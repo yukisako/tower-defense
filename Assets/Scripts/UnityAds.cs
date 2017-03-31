@@ -3,12 +3,28 @@ using UnityEngine.Advertisements;
 
 public class UnityAds : MonoBehaviour
 {
+	void Awake () {
+		// ゲームIDを入力して、Unity Adsを初期化する
+		if (Advertisement.isSupported)
+		{
+			//2つ目の引数は、true＝テストモードなので、アプリリリース時には、falseに設定すること
+			Advertisement.Initialize ("1368885",true);
+		}  else {
+			Debug.Log("Platform not supported");
+		}
+	}
+
+
 	public void ShowAd()
 	{
-		if (Advertisement.IsReady())
+		Debug.Log ("showAd1");
+		Debug.Log (Advertisement.IsReady());
+
+		if (Advertisement.IsReady("rewardedVideo"))
 		{
 			var options = new ShowOptions { resultCallback = HandleShowResult };
-			Advertisement.Show( options);
+			Debug.Log ("showAd2");
+			Advertisement.Show("rewardedVideo", options);
 		}
 	}
 
