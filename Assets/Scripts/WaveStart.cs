@@ -29,7 +29,7 @@ public class WaveStart : TextObj {
 		if (numberWave != 1) {
 			int bonus = (int)(Global.Money * 0.05);
 			Global.AddMoney(bonus);
-			Label = "Wave " + numberWave + "\nBonus ¥" + bonus;
+			Label = "Wave " + numberWave + "\nBonus $" + bonus;
 		} else {
 			Label = "Wave " + numberWave;
 		}
