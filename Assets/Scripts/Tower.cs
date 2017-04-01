@@ -7,11 +7,14 @@ public class Tower : Token {
 	//タワーを管理するオブジェクト
 	public static TokenMgr<Tower> parent;
 
+	private TowerType towerType;
+
 	public int CostRange {
 		get {
 			return Cost.TowerUpGrade (eUpgrade.Range, levelRange);
 		}
 	}
+
 
 	public int CostFirerate{
 		get {
@@ -35,12 +38,12 @@ public class Tower : Token {
 	}
 
 	//タワーを生成
-	public static Tower Add(float px, float py){
+	public static Tower Add(float px, float py,TowerType type){
 		Tower tower = parent.Add (px, py);
+		tower.towerType = type;
 		if (tower == null) {
 			return null;
 		}
-
 		tower.Init ();
 		return tower;
 	}
@@ -49,6 +52,32 @@ public class Tower : Token {
 		Range,
 		Firerate,
 		Power
+	}
+
+	private void changeColor(){
+		switch(towerType){
+		case TowerType.Normal:
+			SetColor(Color.white);
+			break;
+		case TowerType.Fire:
+			SetColor(new Color(1f, 0.4f, 0.4f, 1f));	//赤
+			break;
+		case TowerType.Needle:
+			SetColor(new Color(0.2f, 0.2f, 0.2f, 1f));	//黒
+			break;
+		case TowerType.Cover:
+			SetColor(new Color(1.0f, 1.0f, 0.4f, 1f));	//黄色
+			break;
+		case TowerType.Freeze:
+			SetColor(new Color(0.4f, 1.0f, 1.0f, 1f));	//水色
+			break;
+		case TowerType.Drain:
+			SetColor(new Color(0.9f, 0.4f, 1.0f, 1f));	//紫
+			break;
+		default:
+			Debug.Log ("bug");	
+			break;
+		}
 	}
 
 	const float SHOT_SPEED = 15.0f;
@@ -85,6 +114,7 @@ public class Tower : Token {
 		levelFirerate = 1;
 		levelPower = 1;
 		UpdateParam ();
+		changeColor ();
 	}
 	
 	// Update is called once per frame
@@ -128,9 +158,9 @@ public class Tower : Token {
 	}
 
 	void UpdateParam(){
-		range = TowerParam.Range (LevelRange);
-		firerate = TowerParam.Firerate (levelFirerate);
-		power = TowerParam.Power (levelPower);
+		range = TowerParam.Range (LevelRange,towerType);
+		firerate = TowerParam.Firerate (levelFirerate,towerType);
+		power = TowerParam.Power (levelPower,towerType);
 	}
 
 	public void Upgrade(eUpgrade type){
@@ -151,7 +181,14 @@ public class Tower : Token {
 		if (particle) {
 			particle.SetColor (0.2f, 0.2f, 1);
 		}
-
 	}
 
+	public enum TowerType{
+		Normal,	//普通
+		Fire, //パワーアップ
+		Freeze, //敵のスピードダウン
+		Needle, //連射
+		Cover,	//広範囲
+		Drain, //吸い取る
+	}
 }

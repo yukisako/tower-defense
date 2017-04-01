@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameOver : MonoBehaviour {
 
-	const int MaxEnemyCount = 10;
+	const int MaxEnemyCount = 100;
 	private static TextObj GameoverText;
 
 	public static bool IsGameover(){
@@ -12,11 +12,14 @@ public class GameOver : MonoBehaviour {
 	}
 
 	public static void GameoverAction(){
+
+		Time.timeScale = 0;
 		MyCanvas.SetActive ("TextGameoverLabel", true);
 		MyCanvas.SetActive ("TextGameover", true);
 		GameoverText = MyCanvas.Find<TextObj> ("TextGameoverLabel");
 
 		GameoverText.SetLabelFormat ("Waves {0}\n Score {1}", Global.Wave, Global.Score);
+		MyCanvas.SetActive ("TextWaveStart", false);
 		MyCanvas.SetActive ("ButtonReplay", true);
 		MyCanvas.SetActive ("ButtonTweet", true);
 	}

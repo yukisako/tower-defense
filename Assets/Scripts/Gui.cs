@@ -17,7 +17,7 @@ public class Gui{
 
 	public Gui(){
 		moneyText = MyCanvas.Find<TextObj> ("TextMoney");
-		buyButton = MyCanvas.Find<ButtonObj> ("ButtonBuy");
+		buyButton = MyCanvas.Find<ButtonObj> ("ButtonBuyNormal");
 		costText = MyCanvas.Find<TextObj> ("TextCost");
 		enemyCountText = MyCanvas.Find<TextObj> ("TextEnemyCount");
 		costText.Label = "";
