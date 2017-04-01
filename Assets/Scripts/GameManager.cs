@@ -155,9 +155,7 @@ public class GameManager : MonoBehaviour {
 
 			break;
 		case eState.Gameover:
-//			if (Input.GetMouseButton (0)) {
-//				Application.LoadLevel ("Main");
-//			}
+			
 			break;
 		}
 	}

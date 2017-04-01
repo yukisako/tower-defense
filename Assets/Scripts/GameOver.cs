@@ -18,5 +18,22 @@ public class GameOver : MonoBehaviour {
 
 		GameoverText.SetLabelFormat ("Waves {0}\n Score {1}", Global.Wave, Global.Score);
 		MyCanvas.SetActive ("ButtonReplay", true);
+		MyCanvas.SetActive ("ButtonTweet", true);
+	}
+
+	public void Tweet(){
+
+		string oldUrl = "DEFENDERでウェーブ" + Global.Wave + "、そしてスコア" + Global.Score+"を獲得しました。" ;
+		Debug.Log (oldUrl);
+		string url = WWW.EscapeURL(oldUrl);
+		Debug.Log (url);
+		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"&hashtags=DEFENDER");
+		
+//		string oldUrl = "Reached Wave" + Global.Wave + ",and Got Score " + Global.Score ;
+//		Debug.Log (oldUrl);
+//		string url = WWW.EscapeURL(oldUrl);
+//		Debug.Log (url);
+//		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"&hashtags=DEFENDER");
+
 	}
 }
