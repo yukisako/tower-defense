@@ -159,6 +159,7 @@ public class Enemy : Token {
 		hp -= val;
 		Alpha = (float)hp / (float)maxHp;
 		if (hp <= 0) {
+			Global.Score += Global.Wave*10;
 			Vanish ();
 		}
 	}

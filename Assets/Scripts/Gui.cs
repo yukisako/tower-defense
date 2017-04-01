@@ -10,13 +10,14 @@ public class Gui{
 	private TextObj waveText;
 	private TextObj towerInfoText;
 	private TextObj timerText;
+	private TextObj scoreText;
 	private ButtonObj rangeButton;
 	private ButtonObj firerateButton;
 	private ButtonObj powerButton;
 
 	public Gui(){
 		moneyText = MyCanvas.Find<TextObj> ("TextMoney");
-		buyButton = MyCanvas.Find<ButtonObj> ("ButtonBuy");
+		buyButton = MyCanvas.Find<ButtonObj> ("ButtonBuyNormal");
 		costText = MyCanvas.Find<TextObj> ("TextCost");
 		enemyCountText = MyCanvas.Find<TextObj> ("TextEnemyCount");
 		costText.Label = "";
@@ -26,12 +27,13 @@ public class Gui{
 		rangeButton = MyCanvas.Find<ButtonObj> ("ButtonRange");
 		firerateButton = MyCanvas.Find<ButtonObj> ("ButtonFirerate");
 		powerButton = MyCanvas.Find<ButtonObj> ("ButtonPower");
-
+		scoreText = MyCanvas.Find<TextObj> ("TextScore");
 	}
 
 
 	public void Update (GameManager.eSelectMode selectMode,Tower tower) {
 		waveText.SetLabelFormat ("{0}", Global.Wave);
+		scoreText.SetLabelFormat ("{0:D5}", Global.Score);
 
 		moneyText.SetLabelFormat ("$ {0}", Global.Money);
 

@@ -17,15 +17,14 @@ public class UnityAds : MonoBehaviour
 
 	public void ShowAd()
 	{
-		Debug.Log ("showAd1");
-		Debug.Log (Advertisement.IsReady());
-
-		if (Advertisement.IsReady("rewardedVideo"))
-		{
+		Debug.Log ("show");
+		if (Advertisement.IsReady ()) {
 			var options = new ShowOptions { resultCallback = HandleShowResult };
-			Debug.Log ("showAd2");
-			Advertisement.Show("rewardedVideo", options);
+			Advertisement.Show (options);
+		} else {
+			Application.LoadLevel ("Main");
 		}
+
 	}
 
 	private void HandleShowResult(ShowResult result)
@@ -34,16 +33,15 @@ public class UnityAds : MonoBehaviour
 		{
 		case ShowResult.Finished:
 			Debug.Log("The ad was successfully shown.");
-			//Application.LoadLevel ("Main");
-			//
-			// YOUR CODE TO REWARD THE GAMER
-			// Give coins etc.
+			Application.LoadLevel ("Main");
 			break;
 		case ShowResult.Skipped:
 			Debug.Log("The ad was skipped before reaching the end.");
+			Application.LoadLevel ("Main");
 			break;
 		case ShowResult.Failed:
 			Debug.LogError("The ad failed to be shown.");
+			Application.LoadLevel ("Main");
 			break;
 		}
 	}

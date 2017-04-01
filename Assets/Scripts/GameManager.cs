@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 	}
 		
 	eSelectMode selectMode = eSelectMode.None;
+	private Tower.TowerType selectTowerType; 
 	GameObject selectObject = null;
 	Tower selectTower = null;
 
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Time.timeScale = 0.0f;	
+		Time.timeScale = 1.0f;
 		//所持金を初期化
 		Global.Init();
 
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour {
 				//なにもないのでタワーを設置できる
 				int cost = Cost.TowerProduction();
 				Global.UseMoney (cost);
-				Tower.Add (cursor.X, cursor.Y);
+				Tower.Add (cursor.X, cursor.Y, selectTowerType);
 
 				//次のタワーの生産コストを取得
 				int cost2 = Cost.TowerProduction();
@@ -145,9 +146,10 @@ public class GameManager : MonoBehaviour {
 
 		case eState.Main:
 			UpdateMain ();
-			if (Enemy.EnemyCount () > 100) {
+			if (GameOver.IsGameover()) {
 				state = eState.Gameover;
-				MyCanvas.SetActive ("TextGameover", true);
+
+				GameOver.GameoverAction ();
 				break;
 			}
 
@@ -155,9 +157,7 @@ public class GameManager : MonoBehaviour {
 
 			break;
 		case eState.Gameover:
-			if (Input.GetMouseButton (0)) {
-				Application.LoadLevel ("Main");
-			}
+			
 			break;
 		}
 	}
@@ -167,12 +167,38 @@ public class GameManager : MonoBehaviour {
 		ChangeSelectMode (eSelectMode.Buy);
 	}
 
+	public void SelectNormalTower(){
+		selectTowerType = Tower.TowerType.Normal;
+	}
+
+	public void SelectFireTower(){
+		selectTowerType = Tower.TowerType.Fire;
+	}
+
+	public void SelectFreezeTower(){
+		selectTowerType = Tower.TowerType.Freeze;
+	}
+
+	public void SelectDrainTower(){
+		selectTowerType = Tower.TowerType.Drain;
+	}
+
+	public void SelectCoverTower(){
+		selectTowerType = Tower.TowerType.Cover;
+	}
+
+	public void SelectNeedleTower(){
+		selectTowerType = Tower.TowerType.Needle;
+	}
+
+
+
 	void ChangeSelectMode(eSelectMode mode){
 		switch (mode) {
 		case eSelectMode.None:
-			MyCanvas.SetActive ("ButtonBuy", true);
+			//MyCanvas.SetActive ("ButtonBuy", true);
 			MyCanvas.SetActive ("TextTowerInfo", false);
-			cursorRange.SetVisible (false, 0);
+			cursorRange.SetVisible (false, 0,selectTowerType);
 			SetActiveUpgrade (false);
 			break;
 
@@ -180,14 +206,14 @@ public class GameManager : MonoBehaviour {
 		case eSelectMode.Buy:
 			//MyCanvas.SetActive ("ButtonBuy", false);
 			MyCanvas.SetActive ("TextTowerInfo", false);
-			cursorRange.SetVisible (false, 0);
+			cursorRange.SetVisible (false, 0,selectTowerType);
 			SetActiveUpgrade (false);
 			break;
 
 		case eSelectMode.Upgrade:
-			MyCanvas.SetActive ("ButtonBuy", true);
+			//MyCanvas.SetActive ("ButtonBuy", true);
 			MyCanvas.SetActive ("TextTowerInfo", true);
-			cursorRange.SetVisible (true, selectTower.LevelRange);
+			cursorRange.SetVisible (true, selectTower.LevelRange,selectTowerType);
 			cursorRange.SetPosition (cursor);
 			SetActiveUpgrade (true);
 			break;
@@ -212,7 +238,7 @@ public class GameManager : MonoBehaviour {
 		int cost = selectTower.GetCost (type);
 		Global.UseMoney (cost);
 		selectTower.Upgrade (type);
-		cursorRange.SetVisible (true, selectTower.LevelRange);
+		cursorRange.SetVisible (true, selectTower.LevelRange,selectTowerType);
 	}
 
 	public void onClickRange(){
@@ -225,9 +251,6 @@ public class GameManager : MonoBehaviour {
 	public void onClickPower(){
 		ExecUpgrade (Tower.eUpgrade.Power);
 	}
-
-
-
 }
 
 
