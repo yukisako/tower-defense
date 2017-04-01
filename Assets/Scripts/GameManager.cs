@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Time.timeScale = 0.0f;	
 		//所持金を初期化
 		Global.Init();
 
@@ -145,9 +144,10 @@ public class GameManager : MonoBehaviour {
 
 		case eState.Main:
 			UpdateMain ();
-			if (Enemy.EnemyCount () > 100) {
+			if (GameOver.IsGameover()) {
 				state = eState.Gameover;
-				MyCanvas.SetActive ("TextGameover", true);
+
+				GameOver.GameoverAction ();
 				break;
 			}
 
@@ -155,9 +155,9 @@ public class GameManager : MonoBehaviour {
 
 			break;
 		case eState.Gameover:
-			if (Input.GetMouseButton (0)) {
-				Application.LoadLevel ("Main");
-			}
+//			if (Input.GetMouseButton (0)) {
+//				Application.LoadLevel ("Main");
+//			}
 			break;
 		}
 	}
@@ -225,9 +225,6 @@ public class GameManager : MonoBehaviour {
 	public void onClickPower(){
 		ExecUpgrade (Tower.eUpgrade.Power);
 	}
-
-
-
 }
 
 

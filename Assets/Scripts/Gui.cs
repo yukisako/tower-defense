@@ -10,6 +10,7 @@ public class Gui{
 	private TextObj waveText;
 	private TextObj towerInfoText;
 	private TextObj timerText;
+	private TextObj scoreText;
 	private ButtonObj rangeButton;
 	private ButtonObj firerateButton;
 	private ButtonObj powerButton;
@@ -26,12 +27,13 @@ public class Gui{
 		rangeButton = MyCanvas.Find<ButtonObj> ("ButtonRange");
 		firerateButton = MyCanvas.Find<ButtonObj> ("ButtonFirerate");
 		powerButton = MyCanvas.Find<ButtonObj> ("ButtonPower");
-
+		scoreText = MyCanvas.Find<TextObj> ("TextScore");
 	}
 
 
 	public void Update (GameManager.eSelectMode selectMode,Tower tower) {
 		waveText.SetLabelFormat ("{0}", Global.Wave);
+		scoreText.SetLabelFormat ("{0:D5}", Global.Score);
 
 		moneyText.SetLabelFormat ("$ {0}", Global.Money);
 

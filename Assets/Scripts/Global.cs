@@ -10,6 +10,8 @@ public class Global : MonoBehaviour {
 		get {return wave;}
 	}
 
+	public static int Score = 0;
+
 	private static float nextWaveTimer = 30.0f;
 	public static float NextWaveTimer{
 		get {return nextWaveTimer;}

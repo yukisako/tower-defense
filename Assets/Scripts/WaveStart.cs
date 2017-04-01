@@ -12,7 +12,7 @@ public class WaveStart : TextObj {
 	}
 
 
-	const float CENTER_X = -40;
+	const float CENTER_X = -60;
 	const float OFFSET_X = 600;
 
 	eState state = eState.End;
