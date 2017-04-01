@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameOver : MonoBehaviour {
 
-	const int MaxEnemyCount = 100;
+	const int MaxEnemyCount = 10;
 	private static TextObj GameoverText;
 
 	public static bool IsGameover(){
