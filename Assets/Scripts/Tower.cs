@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tower : Token {
 
+	const float SHOT_SPEED = 5.0f;
+
 	//タワーを管理するオブジェクト
 	public static TokenMgr<Tower> parent;
 
@@ -80,7 +82,6 @@ public class Tower : Token {
 		}
 	}
 
-	const float SHOT_SPEED = 15.0f;
 
 	private float range;
 

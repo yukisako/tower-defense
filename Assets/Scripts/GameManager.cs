@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	GameObject selectObject = null;
 	Tower selectTower = null;
 
+
 	int appearTimer = 0;
 	List <Vec2D>[] paths = new List<Vec2D>[4];
 	EnemyGenerator[] enemyGenerators = new EnemyGenerator[4];
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour {
 	private float nextWaveTimer;
 	private WaveStart waveStart;
 	private CursorRange cursorRange;
+
 
 	// Use this for initialization
 	void Start () {
@@ -115,12 +117,12 @@ public class GameManager : MonoBehaviour {
 				int cost = Cost.TowerProduction();
 				Global.UseMoney (cost);
 				Tower.Add (cursor.X, cursor.Y, selectTowerType);
-
+				ChangeSelectMode (eSelectMode.None);
 				//次のタワーの生産コストを取得
-				int cost2 = Cost.TowerProduction();
-				if (Global.Money < cost2) {
-					ChangeSelectMode (eSelectMode.None);
-				}
+//				int cost2 = Cost.TowerProduction();
+//				if (Global.Money < cost2) {
+//					ChangeSelectMode (eSelectMode.None);
+//				}
 			}
 			break;
 		}
@@ -204,7 +206,6 @@ public class GameManager : MonoBehaviour {
 
 
 		case eSelectMode.Buy:
-			//MyCanvas.SetActive ("ButtonBuy", false);
 			MyCanvas.SetActive ("TextTowerInfo", false);
 			cursorRange.SetVisible (false, 0,selectTowerType);
 			SetActiveUpgrade (false);

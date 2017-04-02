@@ -14,6 +14,7 @@ public class Gui{
 	private ButtonObj rangeButton;
 	private ButtonObj firerateButton;
 	private ButtonObj powerButton;
+	private ButtonObj buyFireButton;
 
 	public Gui(){
 		moneyText = MyCanvas.Find<TextObj> ("TextMoney");
@@ -28,6 +29,8 @@ public class Gui{
 		firerateButton = MyCanvas.Find<ButtonObj> ("ButtonFirerate");
 		powerButton = MyCanvas.Find<ButtonObj> ("ButtonPower");
 		scoreText = MyCanvas.Find<TextObj> ("TextScore");
+
+		buyFireButton = MyCanvas.Find<ButtonObj> ("ButtonBuyFire");
 	}
 
 
@@ -67,7 +70,7 @@ public class Gui{
 		}
 		buyButton.Enabled = (Global.Money >= cost);
 
-		buyButton.FormatLabel ("Buy (${0})", cost);
+		//buyButton.FormatLabel ("Buy (${0})", cost);
 
 		countEnemy ();
 

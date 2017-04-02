@@ -5,7 +5,7 @@ using UnityEngine;
 public class TowerParam{
 	public static float Range(int level,Tower.TowerType towerType){
 		float size = Field.GetChipSize ();
-		return size+(1.0f * size * level);
+		return size+(3.0f * size * level);
 	}
 
 
