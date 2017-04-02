@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Global : MonoBehaviour {
-
+	const int MONEY_INIT = 10000;
 	private static int wave = 1;
 
 	public static int Wave{
@@ -37,7 +37,7 @@ public class Global : MonoBehaviour {
 	}
 
 
-	const int MONEY_INIT = 100;
+
 	private static int money;
 	public static int Money{
 		get {return money;}

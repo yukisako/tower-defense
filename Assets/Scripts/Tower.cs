@@ -4,29 +4,35 @@ using UnityEngine;
 
 public class Tower : Token {
 
-	const float SHOT_SPEED = 5.0f;
+	const float SHOT_SPEED = 10.0f;
+
 
 	//タワーを管理するオブジェクト
 	public static TokenMgr<Tower> parent;
 
 	private TowerType towerType;
+	public TowerType GetTowerType{
+		get{
+			return towerType;
+		}
+	}
 
 	public int CostRange {
 		get {
-			return Cost.TowerUpGrade (eUpgrade.Range, levelRange);
+			return Cost.TowerUpGrade (eUpgrade.Range, levelRange,towerType);
 		}
 	}
 
 
 	public int CostFirerate{
 		get {
-			return Cost.TowerUpGrade (eUpgrade.Firerate, levelFirerate);
+			return Cost.TowerUpGrade (eUpgrade.Firerate, levelFirerate,towerType);
 		}
 	}
 
 	public int CostPower{
 		get {
-			return Cost.TowerUpGrade (eUpgrade.Power, levelPower);
+			return Cost.TowerUpGrade (eUpgrade.Power, levelPower,towerType);
 		}
 	}
 
@@ -154,7 +160,7 @@ public class Tower : Token {
 		}
 		//ショットを打つ
 
-		Shot.Add (X, Y, targetAngle, SHOT_SPEED, power);
+		Shot.Add (X, Y, targetAngle, SHOT_SPEED, power,towerType);
 		firerateTimer = 0;
 	}
 
