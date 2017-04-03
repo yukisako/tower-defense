@@ -24,7 +24,7 @@ public class Tower : Token {
 		case TowerType.Cover:
 			return "Attack to a Far Enemy\n\n遠方射撃が可能";
 		case TowerType.Drain:
-			return "Take Away 30% of HP\n\n敵のHPを3割奪う";
+			return "Take Away 30% of Enemy's HP\n\n敵のHPを3割奪う";
 		case TowerType.Fire:
 			return "Possible to Strong Attack\n\n高火力攻撃が可能";
 		case TowerType.Freeze:

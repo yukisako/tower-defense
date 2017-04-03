@@ -37,8 +37,8 @@ public class Gui{
 	public Gui(){
 		moneyText = MyCanvas.Find<TextObj> ("TextMoney");
 		costText = MyCanvas.Find<TextObj> ("TextCost");
-		enemyCountText = MyCanvas.Find<TextObj> ("TextEnemyCount");
 		costText.Label = "";
+		enemyCountText = MyCanvas.Find<TextObj> ("TextEnemyCount");
 		waveText = MyCanvas.Find<TextObj> ("TextWave");
 		timerText = MyCanvas.Find<TextObj> ("TextTimer");
 		towerInfoText = MyCanvas.Find<TextObj> ("TextTowerInfo");

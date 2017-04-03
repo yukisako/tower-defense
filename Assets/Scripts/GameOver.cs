@@ -18,12 +18,18 @@ public class GameOver : MonoBehaviour {
 		MyCanvas.SetActive ("TextGameover", true);
 		GameoverText = MyCanvas.Find<TextObj> ("TextGameoverLabel");
 
-		GameoverText.SetLabelFormat ("Waves {0}\n Score {1}", Global.Wave, Global.Score);
+		GameoverText.SetLabelFormat ("Wave {0} Score {1:D6}", Global.Wave, Global.Score);
 		MyCanvas.SetActive ("TextWaveStart", false);
 		MyCanvas.SetActive ("ButtonReplay", true);
 		MyCanvas.SetActive ("ButtonTweet", true);
 		MyCanvas.SetActive ("ImageGameover", true);
+		MyCanvas.SetActive ("ButtonResistRanking", true);
+		MyCanvas.SetActive ("InputNickname", true);
+		MyCanvas.SetActive ("TextNicknameLabel", true);
 	}
+
+
+
 
 	public void Tweet(){
 
@@ -32,12 +38,5 @@ public class GameOver : MonoBehaviour {
 		string url = WWW.EscapeURL(oldUrl);
 		Debug.Log (url);
 		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"&hashtags=DEFENDER");
-		
-//		string oldUrl = "Reached Wave" + Global.Wave + ",and Got Score " + Global.Score ;
-//		Debug.Log (oldUrl);
-//		string url = WWW.EscapeURL(oldUrl);
-//		Debug.Log (url);
-//		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"&hashtags=DEFENDER");
-
 	}
 }

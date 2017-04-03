@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour {
 		ChangeSelectMode (eSelectMode.None);
 
 		MyCanvas.SetActive ("ImageGameover", false);
+
 	}
 
 

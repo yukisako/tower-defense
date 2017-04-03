@@ -17,7 +17,6 @@ public class UnityAds : MonoBehaviour
 
 	public void ShowAd()
 	{
-		Debug.Log ("show");
 		if (Advertisement.IsReady ()) {
 			var options = new ShowOptions { resultCallback = HandleShowResult };
 			Advertisement.Show (options);
