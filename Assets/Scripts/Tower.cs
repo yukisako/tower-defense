@@ -4,27 +4,53 @@ using UnityEngine;
 
 public class Tower : Token {
 
+	const float SHOT_SPEED = 10.0f;
+
+
 	//タワーを管理するオブジェクト
 	public static TokenMgr<Tower> parent;
 
 	private TowerType towerType;
+	public TowerType GetTowerType{
+		get{
+			return towerType;
+		}
+	}
+
+	public static string getTowerDescription(TowerType type){
+		switch (type) {
+		case TowerType.Normal:
+			return "Low-Cost Normal Canon \n\n安価な普通の大砲";
+		case TowerType.Cover:
+			return "Attack to a Far Enemy\n\n遠方射撃が可能";
+		case TowerType.Drain:
+			return "Take Away 30% of HP\n\n敵のHPを3割奪う";
+		case TowerType.Fire:
+			return "Possible to Strong Attack\n\n高火力攻撃が可能";
+		case TowerType.Freeze:
+			return "Lose Speed of the Enemy\n\n敵の速度を落とす";
+		case TowerType.Needle:
+			return "Possible to Attack Quickly\n\n連射速度が速い";
+		} 
+		return "説明";
+	}
 
 	public int CostRange {
 		get {
-			return Cost.TowerUpGrade (eUpgrade.Range, levelRange);
+			return Cost.TowerUpGrade (eUpgrade.Range, levelRange,towerType);
 		}
 	}
 
 
 	public int CostFirerate{
 		get {
-			return Cost.TowerUpGrade (eUpgrade.Firerate, levelFirerate);
+			return Cost.TowerUpGrade (eUpgrade.Firerate, levelFirerate,towerType);
 		}
 	}
 
 	public int CostPower{
 		get {
-			return Cost.TowerUpGrade (eUpgrade.Power, levelPower);
+			return Cost.TowerUpGrade (eUpgrade.Power, levelPower,towerType);
 		}
 	}
 
@@ -80,7 +106,6 @@ public class Tower : Token {
 		}
 	}
 
-	const float SHOT_SPEED = 15.0f;
 
 	private float range;
 
@@ -153,7 +178,7 @@ public class Tower : Token {
 		}
 		//ショットを打つ
 
-		Shot.Add (X, Y, targetAngle, SHOT_SPEED, power);
+		Shot.Add (X, Y, targetAngle, SHOT_SPEED, power,towerType);
 		firerateTimer = 0;
 	}
 

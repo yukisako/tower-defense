@@ -59,13 +59,19 @@ public class Enemy : Token {
 		previousPoint.Copy (nextPoint);
 		if (line < 2) {
 			previousPoint.x -= Field.GetChipSize ();
+			if (isRotate (type)) {
+				Angle = Mathf.Atan2 (0, 1) * Mathf.Rad2Deg;
+			}
 		} else {
 			previousPoint.y += Field.GetChipSize ();
+			if (isRotate (type)) {
+				Angle = Mathf.Atan2 (1, 0) * Mathf.Rad2Deg;
+			}
 		}
 		FixedUpdate ();
-		maxHp = EnemyParam.Hp ();
-		hp = EnemyParam.Hp();
-		money = EnemyParam.Money();
+		maxHp = EnemyParam.Hp (type);
+		hp = EnemyParam.Hp(type);
+		money = EnemyParam.Money(type);
 		Alpha = 1.0f;
 	}
 
@@ -143,11 +149,21 @@ public class Enemy : Token {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
+
 		string name = LayerMask.LayerToName (other.gameObject.layer);
+		Shot shot = other.gameObject.GetComponent<Shot> ();
+		shot.Vanish ();
+
 		if (name == "Shot") {
-			Shot shot = other.gameObject.GetComponent<Shot> ();
-			shot.Vanish ();
-			Damage (shot.Power);
+			if (other.tag == "slow") {
+				speed = (int)(speed * 0.7);
+			}
+			if (other.tag == "drain") {
+				Damage ((int)(hp * 0.3));
+			} else {
+				Damage (shot.Power);
+			}
+
 			if (Exists == false) {
 				Global.AddMoney (money);
 			}
@@ -157,7 +173,7 @@ public class Enemy : Token {
 
 	void Damage(int val){
 		hp -= val;
-		Alpha = (float)hp / (float)maxHp;
+		Alpha = (float)hp / (float)maxHp*0.9f+0.1f;
 		if (hp <= 0) {
 			Global.Score += Global.Wave*10;
 			Vanish ();
@@ -277,4 +293,6 @@ public class Enemy : Token {
 	public static int EnemyCount(){
 		return Enemy.parent.Count ();
 	}
+
+
 }

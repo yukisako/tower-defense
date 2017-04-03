@@ -21,12 +21,12 @@ public class EnemyGenerator{
 	}
 
 	// Use this for initialization
-	public void Start (int numberWave) {
+	public void Start (int numberWave, Enemy.EnemyType type) {
 		Global.currentType = Enemy.WaveToType ();
 		interval = EnemyParam.GenerationInterval();
 		intervalTimer = 0;
 
-		number = EnemyParam.GenerationNumber();
+		number = EnemyParam.GenerationNumber(type);
 	}
 	
 	// Update is called once per frame

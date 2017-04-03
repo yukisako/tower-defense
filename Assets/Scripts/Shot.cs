@@ -6,13 +6,18 @@ public class Shot : Token {
 
 	public static TokenMgr<Shot> parent;
 
-	public static Shot Add(float px,float py, float direction, float speed, int power){
+	public static Shot Add(float px,float py, float direction, float speed, int power,Tower.TowerType type){
 		Shot shot = parent.Add(px,py,direction,speed);
 		if (shot == null) {
 			return null;
 		}
-
 		shot.Init (power);
+		if (type == Tower.TowerType.Freeze) {
+			shot.tag = "slow";
+		}
+		if (type == Tower.TowerType.Drain) {
+			shot.tag = "drain";
+		}
 		return shot;
 	}
 

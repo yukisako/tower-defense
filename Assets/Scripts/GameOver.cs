@@ -22,6 +22,7 @@ public class GameOver : MonoBehaviour {
 		MyCanvas.SetActive ("TextWaveStart", false);
 		MyCanvas.SetActive ("ButtonReplay", true);
 		MyCanvas.SetActive ("ButtonTweet", true);
+		MyCanvas.SetActive ("ImageGameover", true);
 	}
 
 	public void Tweet(){
