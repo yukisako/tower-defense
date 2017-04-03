@@ -9,10 +9,10 @@ public class Cost{
 		int cost = 300;
 		switch (type) {
 		case Tower.TowerType.Normal:
-			cost = 100;
+			cost = 200;
 			break;
 		case Tower.TowerType.Fire:
-			cost = 1200; 
+			cost = 1500; 
 			break;
 		case Tower.TowerType.Drain:
 			cost = 2000;
@@ -24,18 +24,11 @@ public class Cost{
 			cost = 1500;
 			break;
 		case Tower.TowerType.Cover:
-			cost = 300;
+			cost = 500;
 			break;
 		}
 
 		return cost;
-
-//		int num = Tower.parent.Count();
-//
-//		int basic = 8;
-//		float ratio = Mathf.Pow (1.3f, num);
-
-//		return (int)(basic * ratio);
 	}
 
 	public static int TowerUpdateBasic(Tower.TowerType type){

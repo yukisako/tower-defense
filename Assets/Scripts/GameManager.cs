@@ -45,9 +45,9 @@ public class GameManager : MonoBehaviour {
 		//敵の管理オブジェクトを生成
 		Enemy.parent = new TokenMgr<Enemy>("Enemy", 128);
 		//ショットを管理するオブジェクトを生成
-		Shot.parent = new TokenMgr<Shot>("Shot", 128);
+		Shot.parent = new TokenMgr<Shot>("Shot", 512);
 		//パーティクルの管理オブジェクト
-		Particle.parent = new TokenMgr<Particle>("Particle", 256);
+		Particle.parent = new TokenMgr<Particle>("Particle", 2048);
 
 		Tower.parent = new TokenMgr<Tower> ("Tower", 64);
 
@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour {
 		cursorRange = GameObject.Find ("CursorRange").GetComponent<CursorRange> ();
 
 		ChangeSelectMode (eSelectMode.None);
+
+		MyCanvas.SetActive ("ImageGameover", false);
 	}
 
 
@@ -161,7 +163,7 @@ public class GameManager : MonoBehaviour {
 
 			break;
 		case eState.Gameover:
-			
+
 			break;
 		}
 	}
@@ -180,15 +182,19 @@ public class GameManager : MonoBehaviour {
 		case eSelectMode.None:
 			//MyCanvas.SetActive ("ButtonBuy", true);
 			MyCanvas.SetActive ("TextTowerInfo", false);
-			cursorRange.SetVisible (false, 0,selectTowerType);
+			cursorRange.SetVisible (false, 0, selectTowerType);
 			SetActiveUpgrade (false);
+			MyCanvas.SetActive ("TextName", false);
+			MyCanvas.SetActive ("TextDescription", false);
 			break;
 
 
 		case eSelectMode.Buy:
-			MyCanvas.SetActive ("TextTowerInfo", false);
+			MyCanvas.SetActive ("TextTowerInfo", true);
 			cursorRange.SetVisible (false, 0,selectTowerType);
 			SetActiveUpgrade (false);
+			MyCanvas.SetActive ("TextName", true);
+			MyCanvas.SetActive ("TextDescription", true);
 			break;
 
 		case eSelectMode.Upgrade:
@@ -197,6 +203,8 @@ public class GameManager : MonoBehaviour {
 			cursorRange.SetVisible (true, selectTower.LevelRange, selectTowerType);
 			cursorRange.SetPosition (cursor);
 			SetActiveUpgrade (true);
+			MyCanvas.SetActive ("TextName", true);
+			MyCanvas.SetActive ("TextDescription", false);
 			gui.resetState ();
 			break;
 

@@ -15,7 +15,7 @@ public class TowerParam{
 			k = 2;
 		}
 		float size = Field.GetChipSize ();
-		return size + (3.0f * size * k * Mathf.Pow(1.5f,(level-1)));
+		return (3.0f * size * k * Mathf.Pow(1.2f,(level-1)));
 	}
 
 

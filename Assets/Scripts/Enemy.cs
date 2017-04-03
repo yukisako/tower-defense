@@ -59,8 +59,14 @@ public class Enemy : Token {
 		previousPoint.Copy (nextPoint);
 		if (line < 2) {
 			previousPoint.x -= Field.GetChipSize ();
+			if (isRotate (type)) {
+				Angle = Mathf.Atan2 (0, 1) * Mathf.Rad2Deg;
+			}
 		} else {
 			previousPoint.y += Field.GetChipSize ();
+			if (isRotate (type)) {
+				Angle = Mathf.Atan2 (1, 0) * Mathf.Rad2Deg;
+			}
 		}
 		FixedUpdate ();
 		maxHp = EnemyParam.Hp (type);

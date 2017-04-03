@@ -11,6 +11,8 @@ public class Gui{
 	private TextObj towerInfoText;
 	private TextObj timerText;
 	private TextObj scoreText;
+	private TextObj nameText;
+	private TextObj descriptionText;
 	private ButtonObj rangeButton;
 	private ButtonObj firerateButton;
 	private ButtonObj powerButton;
@@ -28,6 +30,7 @@ public class Gui{
 	private Button buyCoverButtonIn;
 	private Button buyDrainButtonIn;
 	private Button buyFreezeButtonIn;
+	private GameObject gameoverImage;
 
 	private Tower.TowerType selectTowerType;
 
@@ -43,6 +46,8 @@ public class Gui{
 		firerateButton = MyCanvas.Find<ButtonObj> ("ButtonFirerate");
 		powerButton = MyCanvas.Find<ButtonObj> ("ButtonPower");
 		scoreText = MyCanvas.Find<TextObj> ("TextScore");
+		nameText = MyCanvas.Find<TextObj> ("TextName");
+		descriptionText = MyCanvas.Find<TextObj> ("TextDescription");
 
 		buyFireButton = MyCanvas.Find<ButtonObj> ("ButtonBuyFire");
 		buyNormalButton = MyCanvas.Find<ButtonObj> ("ButtonBuyNormal");
@@ -50,6 +55,7 @@ public class Gui{
 		buyCoverButton = MyCanvas.Find<ButtonObj> ("ButtonBuyCover");
 		buyDrainButton = MyCanvas.Find<ButtonObj> ("ButtonBuyDrain");
 		buyFreezeButton = MyCanvas.Find<ButtonObj> ("ButtonBuyFreeze");
+//		gameoverImage = MyCanvas.Find<GameObject> ("ImageGameover");
 
 		buyFireButtonIn = buyFireButton.GetComponent<Button> ();
 		buyNormalButtonIn = buyNormalButton.GetComponent<Button> ();
@@ -62,7 +68,7 @@ public class Gui{
 
 	public void Update (GameManager.eSelectMode selectMode,Tower tower) {
 		waveText.SetLabelFormat ("{0}", Global.Wave);
-		scoreText.SetLabelFormat ("{0:D5}", Global.Score);
+		scoreText.SetLabelFormat ("{0:D6}", Global.Score);
 
 		moneyText.SetLabelFormat ("$ {0}", Global.Money);
 
@@ -71,30 +77,60 @@ public class Gui{
 		costText.Label = "";
 
 		if (selectMode == GameManager.eSelectMode.Upgrade) {
-			towerInfoText.SetLabelFormat ("Tower Info\nRange: Lv{0}\nFirerate: Lv{1}\nPower: Lv{2}"
-				, tower.LevelRange, tower.LevelFirerate, tower.LevelPower);
+			//表示上，距離は10倍してみる
+			float range = 10.0f*TowerParam.Range(tower.LevelRange,tower.GetTowerType);
+			float firerate = 10.0f/TowerParam.Firerate(tower.LevelFirerate,tower.GetTowerType);
+			int power = (int)TowerParam.Power (tower.LevelPower, tower.GetTowerType);
+			towerInfoText.SetLabelFormat ("Range: {0:f1}\nRapid: {1:f1}\nPower: {2}"
+				, range, firerate, power);
+			nameText.SetLabelFormat ("{0}", tower.GetTowerType);
+			descriptionText.SetLabelFormat ("{0}", Tower.getTowerDescription(tower.GetTowerType));
 		}
+
+		if (selectMode == GameManager.eSelectMode.Buy) {
+			float range = 10.0f*TowerParam.Range(1,selectTowerType);
+			float firerate = 10.0f/TowerParam.Firerate(1,selectTowerType);
+			float power = (int)TowerParam.Power (1, selectTowerType);
+			towerInfoText.SetLabelFormat ("Range: {0:f1}\nRapid: {1:f1}\nPower: {2}",
+				range, firerate, power);
+			nameText.SetLabelFormat ("{0}", selectTowerType);
+			descriptionText.SetLabelFormat ("{0}", Tower.getTowerDescription(selectTowerType));
+		}
+
 
 		int money = Global.Money;
 
 		if (tower) {
+			if (tower.LevelRange > 5) {
+				rangeButton.Enabled = false;
+				rangeButton.FormatLabel ("Range MAX");
+			} else {
+				rangeButton.Enabled = (money >= tower.CostRange);
+				rangeButton.FormatLabel ("Range ${0}", tower.CostRange);
+			}
+			if (tower.LevelFirerate > 5) {
+				firerateButton.Enabled = false;
+				firerateButton.FormatLabel ("Firerate MAX");
+			} else {
+				firerateButton.Enabled = (money >= tower.CostFirerate);
+				firerateButton.FormatLabel ("Firerate ${0}", tower.CostFirerate);
+			}
 
-			rangeButton.Enabled = (money >= tower.CostRange);
-			rangeButton.FormatLabel ("Range ${0}", tower.CostRange);
-
-			firerateButton.Enabled = (money >= tower.CostFirerate);
-			firerateButton.FormatLabel ("Firerate ${0}", tower.CostFirerate);
-
-			powerButton.Enabled = (money >= tower.CostPower);
-			powerButton.FormatLabel ("Power ${0}", tower.CostPower);
+			if (tower.LevelPower > 5) {
+				powerButton.Enabled = false;
+				powerButton.FormatLabel ("Power MAX");
+		
+			} else {
+				powerButton.Enabled = (money >= tower.CostPower);
+				powerButton.FormatLabel ("Power ${0}", tower.CostPower);
+			}
 		}
-
-
 
 		if (selectMode == GameManager.eSelectMode.Buy) {
 			int cost = Cost.TowerProduction (selectTowerType);
-			costText.SetLabelFormat ("cost:${0}", cost);
+			costText.SetLabelFormat ("cost ${0}", cost);
 		}
+
 
 		buttonEnable ();
 		//buyButton.FormatLabel ("Buy (${0})", cost);
