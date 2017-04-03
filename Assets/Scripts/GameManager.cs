@@ -87,9 +87,7 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < Global.Line; i++) {
 			enemyGenerators [i].Update ();
 		}
-		if (cursor.Placeable == false) {
-			return;
-		}
+
 
 		int mask = 1 << LayerMask.NameToLayer ("Tower");
 		Collider2D col = Physics2D.OverlapPoint (cursor.GetPosition (), mask);
@@ -105,8 +103,13 @@ public class GameManager : MonoBehaviour {
 			return;
 		}
 
-		Time.timeScale = 1.0f;
-
+		if (cursor.Placeable == false) {
+			//配置できない頃をクリックしたので通常モードに戻る
+			ChangeSelectMode (eSelectMode.None);
+			gui.resetState ();
+			return;
+		}
+			
 		if (selectObject) {
 			selectTower = selectObject.GetComponent<Tower> ();
 			ChangeSelectMode (eSelectMode.Upgrade);
@@ -186,6 +189,7 @@ public class GameManager : MonoBehaviour {
 			SetActiveUpgrade (false);
 			MyCanvas.SetActive ("TextName", false);
 			MyCanvas.SetActive ("TextDescription", false);
+			MyCanvas.SetActive ("ButtonPause", true);
 			break;
 
 
@@ -195,6 +199,7 @@ public class GameManager : MonoBehaviour {
 			SetActiveUpgrade (false);
 			MyCanvas.SetActive ("TextName", true);
 			MyCanvas.SetActive ("TextDescription", true);
+			MyCanvas.SetActive ("ButtonPause", false);
 			break;
 
 		case eSelectMode.Upgrade:
@@ -205,6 +210,7 @@ public class GameManager : MonoBehaviour {
 			SetActiveUpgrade (true);
 			MyCanvas.SetActive ("TextName", true);
 			MyCanvas.SetActive ("TextDescription", false);
+			MyCanvas.SetActive ("ButtonPause", false);
 			gui.resetState ();
 			break;
 
