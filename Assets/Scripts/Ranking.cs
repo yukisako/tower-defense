@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NCMB;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using System.Text;
@@ -15,8 +14,6 @@ public class Ranking : MonoBehaviour {
 	public List<NCMBObject> topRankers = null;
 	public List<NCMBObject> neighbors  = null;
 
-	private TextObj rankingText;
-	private TextObj neighborText;
 	private TextObj rankingStateText;
 
 
@@ -58,9 +55,7 @@ public class Ranking : MonoBehaviour {
 				ranking = makeTopRanking(objList);
 			}
 			MyCanvas.SetActive ("TextRanking", true);
-			rankingText = MyCanvas.Find<TextObj> ("TextRanking");
-			rankingText.SetLabelFormat ("{0}", ranking);
-
+			MyCanvas.Find<TextObj> ("TextRanking").SetLabelFormat ("{0}", ranking);
 		});
 	}
 
@@ -89,9 +84,7 @@ public class Ranking : MonoBehaviour {
 				ranking = makeNeighborRanking(objList, numSkip+1);
 			}
 			MyCanvas.SetActive ("TextNeighbor", true);
-			neighborText = MyCanvas.Find<TextObj> ("TextNeighbor");
-			neighborText.SetLabelFormat ("{0}",ranking );
-
+			MyCanvas.Find<TextObj> ("TextNeighbor").SetLabelFormat ("{0}", ranking);
 		});
 	}
 
@@ -142,10 +135,19 @@ public class Ranking : MonoBehaviour {
 	private string makeTopRanking(List<NCMBObject> objList){
 		string ranking = "";
 		for (int i = 0; i < 5; i++) {
+			string name = System.Convert.ToString (objList[i] ["Nickname"]);
+			if (name == "") {
+				name = "No Name";
+			}
+
 			if (currentRank == i+1) {
-				ranking += "<color=#ff3333>"+string.Format ("{0} ", i+1) + makeRanking (objList [i]) + "</color>" + "\n";
+				MyCanvas.SetActive ($"TextRanking{i}", true);
+				ranking += "<color=#ff3333>"+string.Format ("{0:D3} {1:D6}", i+1,System.Convert.ToInt32(objList[i] ["Score"])) + "</color>" + "\n";
+				MyCanvas.Find<TextObj> ($"TextRanking{i}").SetLabelFormat ("{0}",name);
 			} else {
-				ranking += string.Format ("{0} ", i+1) + makeRanking (objList [i]) + "\n";
+				MyCanvas.SetActive ($"TextRanking{i}", true);
+				ranking += string.Format ("{0:D3} {1:D6}", i+1,System.Convert.ToInt32(objList[i] ["Score"]))+ "\n";
+				MyCanvas.Find<TextObj> ($"TextRanking{i}").SetLabelFormat ("{0}",name);
 			}
 		}
 		return (ranking);
@@ -154,18 +156,24 @@ public class Ranking : MonoBehaviour {
 	private string makeNeighborRanking(List<NCMBObject> objList, int skipNum){
 		string ranking = "";
 		for (int i = 0; i < objList.Count; i++) {
+			string name = System.Convert.ToString (objList[i] ["Nickname"]);
+			if (name == "") {
+				name = "No Name";
+			}
+
 			if (skipNum + i == currentRank) {
-				ranking = ranking + "<color=#ff3333>" + (string.Format ("{0} ", skipNum + i) + makeRanking (objList [i]) + "</color>" + "\n");
-		
+				MyCanvas.SetActive ($"TextNeighbor{i}", true);
+
+				ranking += "<color=#ff3333>"+string.Format ("{0:D3} {1:D6}", i+skipNum,System.Convert.ToInt32(objList[i] ["Score"])) + "</color>" + "\n";
+				MyCanvas.Find<TextObj> ($"TextNeighbor{i}").SetLabelFormat ("{0}",name);
 			} else {
-				ranking = ranking + (string.Format ("{0} ", skipNum + i) + makeRanking (objList [i]) + "\n");
+				MyCanvas.SetActive ($"TextNeighbor{i}", true);
+				ranking += string.Format ("{0:D3} {1:D6}", skipNum + i,System.Convert.ToInt32(objList[i] ["Score"]))+ "\n";
+				MyCanvas.Find<TextObj> ($"TextNeighbor{i}").SetLabelFormat ("{0}",name);
 			}
 		}
 		return (ranking);
 	}
-
-
-
 
 	private string makeRanking(NCMBObject obj){
 		string name;
@@ -176,22 +184,23 @@ public class Ranking : MonoBehaviour {
 			name = System.Convert.ToString(obj["Nickname"]);
 		}
 			
-		return (string.Format("{0:D6}", score) + "  " + formatName(name));
+		return (string.Format("{0:D6}", score) + "  " + name);
 	}
 
-	private string formatName(string name){
-		int num = 8;
-		Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
-		int byteNum = sjisEnc.GetByteCount(name);
-		while (byteNum > 10) {
-			name = name.PadRight (num).Substring (0, num);
-			byteNum = sjisEnc.GetByteCount(name);
-			Debug.Log (byteNum);
-			num--;
-		}
-		return name;
-
-	}
+//
+//	private string formatName(string name){
+//		int num = 10;
+//		Encoding sjisEnc = Encoding.GetEncoding("UTF-8");
+//		int byteNum = sjisEnc.GetByteCount(name);
+//		while (byteNum > 10) {
+//			name = name.PadRight (num).Substring (0, num);
+//			byteNum = sjisEnc.GetByteCount(name);
+//			Debug.Log (byteNum);
+//			num--;
+//		}
+//		return name;
+//
+//	}
 
 
 }

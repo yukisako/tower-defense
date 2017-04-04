@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour {
 
@@ -10,7 +11,12 @@ public class Pause : MonoBehaviour {
 			MyCanvas.SetActive ("ButtonReplay", false);
 			MyCanvas.SetActive ("ButtonBack", false);
 			MyCanvas.SetActive ("ImageGameover", false);
+			MyCanvas.SetActive ("ButtonGoTop", false);
 		}
+	}
+
+	public void GoTop(){
+		SceneManager.LoadScene ("Start");
 	}
 
 	public void PauseStart(){
@@ -19,6 +25,7 @@ public class Pause : MonoBehaviour {
 			MyCanvas.SetActive ("ButtonReplay", true);
 			MyCanvas.SetActive ("ButtonBack", true);
 			MyCanvas.SetActive ("ImageGameover", true);
+			MyCanvas.SetActive ("ButtonGoTop", true);
 		}
 	}
 

@@ -20,6 +20,8 @@ public class BGM : MonoBehaviour {
 	}
 
 	public void Stop(){
+		audioSource = GetComponent<AudioSource> ();
+		audioSource.clip = gameoverMusic;
 		audioSource.Stop ();
 	}
 }
