@@ -3,6 +3,8 @@ using UnityEngine.Advertisements;
 
 public class UnityAds : MonoBehaviour
 {
+	private BGM BGMComponent;
+	private GameObject bgm;
 	void Awake () {
 		// ゲームIDを入力して、Unity Adsを初期化する
 		if (Advertisement.isSupported)
@@ -17,13 +19,15 @@ public class UnityAds : MonoBehaviour
 
 	public void ShowAd()
 	{
+		bgm = GameObject.Find ("BGM");
+		BGMComponent = bgm.GetComponent<BGM> ();
+		BGMComponent.Stop();
 		if (Advertisement.IsReady ()) {
 			var options = new ShowOptions { resultCallback = HandleShowResult };
 			Advertisement.Show (options);
 		} else {
 			Application.LoadLevel ("Main");
 		}
-
 	}
 
 	private void HandleShowResult(ShowResult result)

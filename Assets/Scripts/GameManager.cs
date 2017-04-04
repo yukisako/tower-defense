@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour {
 		Buy,
 		Upgrade
 	}
-		
+	private BGM BGMComponent;
+	private GameObject bgm;
 	eSelectMode selectMode = eSelectMode.None;
 	private Tower.TowerType selectTowerType; 
 	GameObject selectObject = null;
@@ -106,7 +107,7 @@ public class GameManager : MonoBehaviour {
 
 		if (cursor.Placeable == false) {
 			//配置できない頃をクリックしたので通常モードに戻る
-			ChangeSelectMode (eSelectMode.None);
+			//ChangeSelectMode (eSelectMode.None);
 			gui.resetState ();
 			return;
 		}
@@ -140,7 +141,6 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
 		gui.Update (selectMode,selectTower);
 
 		cursor.Proc (collisionLayer);
@@ -158,7 +158,9 @@ public class GameManager : MonoBehaviour {
 			UpdateMain ();
 			if (GameOver.IsGameover()) {
 				state = eState.Gameover;
-
+				bgm = GameObject.Find ("BGM");
+				BGMComponent = bgm.GetComponent<BGM> ();
+				BGMComponent.Play();
 				GameOver.GameoverAction ();
 				break;
 			}
@@ -167,7 +169,6 @@ public class GameManager : MonoBehaviour {
 
 			break;
 		case eState.Gameover:
-
 			break;
 		}
 	}
@@ -190,9 +191,8 @@ public class GameManager : MonoBehaviour {
 			SetActiveUpgrade (false);
 			MyCanvas.SetActive ("TextName", false);
 			MyCanvas.SetActive ("TextDescription", false);
-			MyCanvas.SetActive ("ButtonPause", true);
+//			MyCanvas.SetActive ("ButtonPause", true);
 			break;
-
 
 		case eSelectMode.Buy:
 			MyCanvas.SetActive ("TextTowerInfo", true);
@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour {
 			SetActiveUpgrade (false);
 			MyCanvas.SetActive ("TextName", true);
 			MyCanvas.SetActive ("TextDescription", true);
-			MyCanvas.SetActive ("ButtonPause", false);
+//			MyCanvas.SetActive ("ButtonPause", false);
 			break;
 
 		case eSelectMode.Upgrade:
@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour {
 			SetActiveUpgrade (true);
 			MyCanvas.SetActive ("TextName", true);
 			MyCanvas.SetActive ("TextDescription", false);
-			MyCanvas.SetActive ("ButtonPause", false);
+//			MyCanvas.SetActive ("ButtonPause", false);
 			gui.resetState ();
 			break;
 

@@ -65,7 +65,7 @@ public class Enemy : Token {
 		} else {
 			previousPoint.y += Field.GetChipSize ();
 			if (isRotate (type)) {
-				Angle = Mathf.Atan2 (1, 0) * Mathf.Rad2Deg;
+				Angle = Mathf.Atan2 (-1, 0) * Mathf.Rad2Deg;
 			}
 		}
 		FixedUpdate ();

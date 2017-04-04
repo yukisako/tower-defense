@@ -110,10 +110,10 @@ public class Gui{
 			}
 			if (tower.LevelFirerate > 5) {
 				firerateButton.Enabled = false;
-				firerateButton.FormatLabel ("Firerate MAX");
+				firerateButton.FormatLabel ("Rapid MAX");
 			} else {
 				firerateButton.Enabled = (money >= tower.CostFirerate);
-				firerateButton.FormatLabel ("Firerate ${0}", tower.CostFirerate);
+				firerateButton.FormatLabel ("Rapid ${0}", tower.CostFirerate);
 			}
 
 			if (tower.LevelPower > 5) {

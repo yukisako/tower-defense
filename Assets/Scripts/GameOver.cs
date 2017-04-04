@@ -7,6 +7,8 @@ public class GameOver : MonoBehaviour {
 	const int MaxEnemyCount = 10;
 	private static TextObj GameoverText;
 
+
+
 	public static bool IsGameover(){
 		return Enemy.EnemyCount () > MaxEnemyCount;
 	}
@@ -33,7 +35,7 @@ public class GameOver : MonoBehaviour {
 
 	public void Tweet(){
 
-		string oldUrl = "DEFENDERでウェーブ" + Global.Wave + "、そしてスコア" + Global.Score+"を獲得しました。" ;
+		string oldUrl = "DEFENDERでウェーブ" + Global.Wave + "まで到達、そしてスコア" + Global.Score+"を獲得しました。" ;
 		Debug.Log (oldUrl);
 		string url = WWW.EscapeURL(oldUrl);
 		Debug.Log (url);

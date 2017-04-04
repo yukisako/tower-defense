@@ -9,7 +9,7 @@ public class Cost{
 		int cost = 300;
 		switch (type) {
 		case Tower.TowerType.Normal:
-			cost = 200;
+			cost = 300;
 			break;
 		case Tower.TowerType.Fire:
 			cost = 1500; 
