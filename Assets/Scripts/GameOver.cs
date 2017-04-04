@@ -39,6 +39,6 @@ public class GameOver : MonoBehaviour {
 		Debug.Log (oldUrl);
 		string url = WWW.EscapeURL(oldUrl);
 		Debug.Log (url);
-		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"&hashtags=DEFENDER");
+		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"&hashtags=BANGBANG100");
 	}
 }
