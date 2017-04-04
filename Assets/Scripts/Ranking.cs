@@ -130,7 +130,7 @@ public class Ranking : MonoBehaviour {
 			}
 		});
 	}
-
+	//山中直幸
 
 	private string makeTopRanking(List<NCMBObject> objList){
 		string ranking = "";
@@ -143,7 +143,7 @@ public class Ranking : MonoBehaviour {
 			if (currentRank == i+1) {
 				MyCanvas.SetActive ($"TextRanking{i}", true);
 				ranking += "<color=#ff3333>"+string.Format ("{0:D3} {1:D6}", i+1,System.Convert.ToInt32(objList[i] ["Score"])) + "</color>" + "\n";
-				MyCanvas.Find<TextObj> ($"TextRanking{i}").SetLabelFormat ("{0}",name);
+				MyCanvas.Find<TextObj> ($"TextRanking{i}").SetLabelFormat ("<color=#ff3333>{0}</color>",name);
 			} else {
 				MyCanvas.SetActive ($"TextRanking{i}", true);
 				ranking += string.Format ("{0:D3} {1:D6}", i+1,System.Convert.ToInt32(objList[i] ["Score"]))+ "\n";
@@ -165,7 +165,7 @@ public class Ranking : MonoBehaviour {
 				MyCanvas.SetActive ($"TextNeighbor{i}", true);
 
 				ranking += "<color=#ff3333>"+string.Format ("{0:D3} {1:D6}", i+skipNum,System.Convert.ToInt32(objList[i] ["Score"])) + "</color>" + "\n";
-				MyCanvas.Find<TextObj> ($"TextNeighbor{i}").SetLabelFormat ("{0}",name);
+				MyCanvas.Find<TextObj> ($"TextNeighbor{i}").SetLabelFormat ("<color=#ff3333>{0}</color>",name);
 			} else {
 				MyCanvas.SetActive ($"TextNeighbor{i}", true);
 				ranking += string.Format ("{0:D3} {1:D6}", skipNum + i,System.Convert.ToInt32(objList[i] ["Score"]))+ "\n";
