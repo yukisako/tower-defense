@@ -16,10 +16,8 @@ public class Global : MonoBehaviour {
 	public static float NextWaveTimer{
 		get {return nextWaveTimer;}
 	}
-
-
+		
 	public static Enemy.EnemyType currentType;
-
 
 	public static bool NextWave(){
 		nextWaveTimer -= Time.deltaTime;
@@ -47,6 +45,7 @@ public class Global : MonoBehaviour {
 		nextWaveTimer = 30;
 		wave = 1;
 		money = MONEY_INIT;
+		Score = 0;
 	}
 
 	public static void AddMoney(int value){
