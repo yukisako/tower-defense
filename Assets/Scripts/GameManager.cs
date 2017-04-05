@@ -46,11 +46,11 @@ public class GameManager : MonoBehaviour {
 		//敵の管理オブジェクトを生成
 		Enemy.parent = new TokenMgr<Enemy>("Enemy", 128);
 		//ショットを管理するオブジェクトを生成
-		Shot.parent = new TokenMgr<Shot>("Shot", 512);
+		Shot.parent = new TokenMgr<Shot>("Shot",2048);
 		//パーティクルの管理オブジェクト
-		Particle.parent = new TokenMgr<Particle>("Particle", 2048);
+		Particle.parent = new TokenMgr<Particle>("Particle", 4096);
 
-		Tower.parent = new TokenMgr<Tower> ("Tower", 64);
+		Tower.parent = new TokenMgr<Tower> ("Tower", 256);
 
 		//マップ管理を生成
 		GameObject prefab = null;
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour {
 		if (cursor.Placeable == false) {
 			//配置できない頃をクリックしたので通常モードに戻る
 			//ChangeSelectMode (eSelectMode.None);
-			gui.resetState ();
+//			gui.resetState ();
 			return;
 		}
 			

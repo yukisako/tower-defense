@@ -10,7 +10,7 @@ public class UnityAds : MonoBehaviour
 		if (Advertisement.isSupported)
 		{
 			//2つ目の引数は、true＝テストモードなので、アプリリリース時には、falseに設定すること
-			Advertisement.Initialize ("1368885",true);
+			Advertisement.Initialize ("1368885",false);
 		}  else {
 			Debug.Log("Platform not supported");
 		}

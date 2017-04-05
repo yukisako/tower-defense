@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Cost{
-	
 	//タワー建設費用
 	public static int TowerProduction(Tower.TowerType type){
 		int cost = 300;
@@ -42,13 +41,13 @@ public class Cost{
 		float cost = 0;
 		switch (upgradeType) {
 		case Tower.eUpgrade.Range:
-			cost = 0.5f * TowerUpdateBasic(towerType) * Mathf.Pow (1.8f, (level - 1));
+			cost = 1.05f * TowerUpdateBasic(towerType) * Mathf.Pow (1.1f, (level - 1));
 			break;
 		case Tower.eUpgrade.Firerate:
-			cost = 0.8f * TowerUpdateBasic(towerType) * Mathf.Pow (1.8f, (level - 1));
+			cost = 0.95f * TowerUpdateBasic(towerType) * Mathf.Pow (1.2f, (level - 1));
 			break;
 		case Tower.eUpgrade.Power:
-			cost = 0.9f * TowerUpdateBasic(towerType) * Mathf.Pow (1.8f, (level - 1));
+			cost = 1.08f * TowerUpdateBasic(towerType) * Mathf.Pow (1.3f, (level - 1));
 			break;
 		}
 		return (int)cost;

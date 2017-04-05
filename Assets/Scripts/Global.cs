@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Global : MonoBehaviour {
-	const int MONEY_INIT = 1000;
+	const int MONEY_INIT = 2000;
 	private static int wave = 1;
 
 	public static int Wave{

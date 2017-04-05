@@ -13,7 +13,7 @@ public class WaveStart : TextObj {
 
 
 	const float CENTER_X = -60;
-	const float OFFSET_X = 600;
+	const float OFFSET_X = 800;
 
 	eState state = eState.End;
 
@@ -31,7 +31,7 @@ public class WaveStart : TextObj {
 			Global.AddMoney(bonus);
 			Label = "Wave " + numberWave + "\nBonus $" + bonus;
 		} else {
-			Label = "Wave " + numberWave;
+			Label = "Wave " + numberWave + "\nBuild!!→→→";
 		}
 		timer = OFFSET_X;
 		state = eState.Appear;

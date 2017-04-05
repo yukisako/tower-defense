@@ -45,8 +45,9 @@ public class EnemyParam{
 			k = 2.0f;
 			break;
 		}
-
-		return (int)(baseHP * k * Mathf.Pow (1.1f, (Global.Wave)) * Mathf.Pow (1.5f, (int)(Global.Wave/7)));
+		int stamina = (int)(baseHP * k * Mathf.Pow (1.1f, (Global.Wave-1)) * Mathf.Pow (1.8f, (int)((Global.Wave-1) / 7)));
+		return stamina;
+//		return (int)(baseHP * k * Mathf.Pow (1.1f, (Global.Wave)) * Mathf.Pow (1.5f, (int)(Global.Wave/7)));
 	}
 
 	public static float Speed(Enemy.EnemyType type){
@@ -77,19 +78,19 @@ public class EnemyParam{
 	public static int Money(Enemy.EnemyType type){
 		switch (type) {
 		case Enemy.EnemyType.Tank:
-			return 10;
+			return 50;
 		case Enemy.EnemyType.Drone:
-			return 6;
+			return 30;
 		case Enemy.EnemyType.AirPlane:
-			return 8;
+			return 40;
 		case Enemy.EnemyType.Balloon:
-			return 6;
+			return 30;
 		case Enemy.EnemyType.Rocket:
-			return 10;
+			return 50;
 		case Enemy.EnemyType.Fighter:
-			return 16;
+			return 80;
 		case Enemy.EnemyType.UFO:
-			return 4;
+			return 20;
 		}
 		return 30;
 	}

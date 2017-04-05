@@ -142,11 +142,29 @@ public class Gui{
 
 	private void buttonEnable(){
 		buyNormalButton.Enabled = (Global.Money >= Cost.TowerProduction(Tower.TowerType.Normal));
+		if(Global.Money < Cost.TowerProduction(Tower.TowerType.Normal)){
+			selectMode(buyNormalButtonIn,ButtonState.normal);
+		}
 		buyFireButton.Enabled = (Global.Money >= Cost.TowerProduction(Tower.TowerType.Fire));
+		if (Global.Money < Cost.TowerProduction (Tower.TowerType.Fire)) {
+			selectMode(buyFireButtonIn,ButtonState.normal);
+		}
 		buyNeedleButton.Enabled = (Global.Money >= Cost.TowerProduction(Tower.TowerType.Needle));
+		if (Global.Money < Cost.TowerProduction (Tower.TowerType.Needle)) {
+			selectMode(buyNeedleButtonIn,ButtonState.normal);
+		}
 		buyFreezeButton.Enabled = (Global.Money >= Cost.TowerProduction(Tower.TowerType.Freeze));
+		if (Global.Money < Cost.TowerProduction (Tower.TowerType.Freeze)) {
+			selectMode(buyFreezeButtonIn,ButtonState.normal);
+		}
 		buyDrainButton.Enabled = (Global.Money >= Cost.TowerProduction(Tower.TowerType.Drain));
+		if (Global.Money < Cost.TowerProduction (Tower.TowerType.Drain)) {
+			selectMode(buyDrainButtonIn,ButtonState.normal);
+		}
 		buyCoverButton.Enabled = (Global.Money >= Cost.TowerProduction(Tower.TowerType.Cover));
+		if (Global.Money < Cost.TowerProduction (Tower.TowerType.Cover)) {
+			selectMode(buyCoverButtonIn,ButtonState.normal);
+		}
 	}
 
 	private void countEnemy(){

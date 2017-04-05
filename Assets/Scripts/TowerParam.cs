@@ -6,7 +6,7 @@ public class TowerParam{
 
 	const float baseRange = 3.0f;
 	const float baseFirerate = 2.0f;
-	const float basePower = 50.0f; 
+	const float basePower = 10.0f;
 
 
 	public static float Range(int level,Tower.TowerType towerType){
@@ -32,7 +32,7 @@ public class TowerParam{
 		if (towerType == Tower.TowerType.Fire) {
 			k = 5;
 		}
-		return (int)(basePower*k*(Mathf.Pow (1.5f, (level - 1))));
+		return (int)(basePower*k*(Mathf.Pow (1.4f, (level - 1))));
 	}
 
 	// Use this for initialization
