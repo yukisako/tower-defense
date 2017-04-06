@@ -130,7 +130,6 @@ public class Ranking : MonoBehaviour {
 			}
 		});
 	}
-	//山中直幸
 
 	private string makeTopRanking(List<NCMBObject> objList){
 		string ranking = "";

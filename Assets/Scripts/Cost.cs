@@ -14,7 +14,7 @@ public class Cost{
 			cost = 1500; 
 			break;
 		case Tower.TowerType.Drain:
-			cost = 2000;
+			cost = (int)(500*Mathf.Pow(1.10f,Global.Wave));
 			break;
 		case Tower.TowerType.Freeze:
 			cost = 500;
