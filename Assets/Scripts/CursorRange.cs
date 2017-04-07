@@ -7,6 +7,7 @@ public class CursorRange : Token {
 	public void SetVisible(bool visible, int levelRange,Tower.TowerType towerType){
 		//元はtowerTypeは渡してなく，一個だった
 		float range = TowerParam.Range (levelRange,towerType);
+		Debug.Log (range);
 		Scale = range / (1.5f * Field.GetChipSize ()) * 5f;
 		Visible = visible;
 	}

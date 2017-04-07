@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 	private GameObject bgm;
 	eSelectMode selectMode = eSelectMode.None;
 	private Tower.TowerType selectTowerType; 
+	private Tower.TowerType upgradeTowerType; 
 	GameObject selectObject = null;
 	Tower selectTower = null;
 	Tower.TowerType selectBuyTowerType;
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour {
 			
 		if (selectObject) {
 			selectTower = selectObject.GetComponent<Tower> ();
+			selectTowerType = selectTower.GetTowerType;
 			ChangeSelectMode (eSelectMode.Upgrade);
 		}
 

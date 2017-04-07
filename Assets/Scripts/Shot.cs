@@ -14,10 +14,12 @@ public class Shot : Token {
 		shot.Init (power);
 		if (type == Tower.TowerType.Freeze) {
 			shot.tag = "slow";
-		}
-		if (type == Tower.TowerType.Drain) {
+		} else if (type == Tower.TowerType.Drain) {
 			shot.tag = "drain";
+		} else {
+			shot.tag = "normal";
 		}
+
 		return shot;
 	}
 
