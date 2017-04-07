@@ -35,10 +35,10 @@ public class GameOver : MonoBehaviour {
 
 	public void Tweet(){
 
-		string oldUrl = "DEFENDERでウェーブ" + Global.Wave + "まで到達、そしてスコア" + Global.Score+"を獲得しました。" ;
+		string oldUrl = "BANGBANG100でウェーブ" + Global.Wave + "まで到達、そしてスコア" + Global.Score+"を獲得しました。\n" ;
 		Debug.Log (oldUrl);
 		string url = WWW.EscapeURL(oldUrl);
 		Debug.Log (url);
-		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"&hashtags=BANGBANG100");
+		Application.OpenURL("https://twitter.com/intent/tweet?text="+url+"https://appsto.re/i67c3Gs"+"&hashtags=BANGBANG100");
 	}
 }
